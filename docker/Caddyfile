@@ -22,6 +22,17 @@ http://proxypartylab.up.railway.app {
   redir https://github.com/recaptime-dev/proxyparty-caddy
 }
 
+# Domain: hcdemo.dev
+# Description: Not related to Hermitcraft or Hack Club, but you can use this
+#              as a template for configuring redirects here.
+# Maintainers: ajhalili2006
+http://hcdemo.dev {
+  redit https://hackclub.com
+}
+
+# Domain/s:    recaptime.dev, recaptime.eu.org
+# Description: Meta configs for recaptime-dev domains.
+# Maintainers: ajhalili2006
 http://proxyparty.recaptime.dev {
   redir https://github.com/recaptime-dev/proxyparty-caddy
   tls {
@@ -29,12 +40,19 @@ http://proxyparty.recaptime.dev {
     resolvers 1.1.1.1
   }
 }
-
-
-http://crew.recaptime.dev {
+http://crew.recaptime.dev http://crew.recaptime.eu.org {
   redir https://wiki.recaptime.dev/domains/crew.recaptime.dev
   tls {
     dns cloudflare {env.CF_BOT_TOKEN}
     resolvers 1.1.1.1
   }
+}
+
+# Domain/s:    andreijiroh.xyz
+# Maintainers: ajhalili2006
+htt[://andreijiroh.pp.ua http://andreijiroh.uk.eu.org http://andreijiroh.eu.org {
+  redir https://andreojiroh.xyz{uri} permanent
+}
+http://links.andreijiroh.xyz http://links.andreijiroh.uk.eu.org http://links.andreijiroh.eu.org http://links.andreijiroh.pp.ua {
+  redir https://andreijiroh.xyz/links
 }
