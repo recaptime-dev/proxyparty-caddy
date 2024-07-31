@@ -15,11 +15,6 @@
   http_port 8080
 }
 
-tls {
-  dns cloudflare {env.CF_BOT_TOKEN}
-  resolvers 1.1.1.1
-}
-
 ### DO NOT TOUCH ANYTHING ABOVE THIS LINE ###
 
 http://proxypartylab.up.railway.app {
@@ -27,10 +22,18 @@ http://proxypartylab.up.railway.app {
 }
 
 http://proxyparty.recaptime.dev {
-    redir https://github.com/recaptime-dev/proxyparty-caddy
+  redir https://github.com/recaptime-dev/proxyparty-caddy
+  tls {
+    dns cloudflare {env.CF_BOT_TOKEN}
+    resolvers 1.1.1.1
+  }
 }
 
 
 http://crew.recaptime.dev {
-    redir https://wiki.recaptime.dev/domains/crew.recaptime.dev
+  redir https://wiki.recaptime.dev/domains/crew.recaptime.dev
+  tls {
+    dns cloudflare {env.CF_BOT_TOKEN}
+    resolvers 1.1.1.1
+  }
 }
