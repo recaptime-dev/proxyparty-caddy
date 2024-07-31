@@ -6,13 +6,14 @@
   email recaptimedev-internal-aaaanq4tfq2enunuq2hun7a63a@hackclub.slack.com
   admin off
   storage s3 {
-    host "https://33e6189a4a87f1923e71af8da171e2ed.r2.cloudflarestorage.com"
+    host "33e6189a4a87f1923e71af8da171e2ed.r2.cloudflarestorage.com"
     bucket "caddy-datastore"
     access_id {env.CF_R2_ACCESS_KEY}
     secret_key {env.CF_R2_ACCESS_SECRET}
     prefix "proxyparty"
   }
-  http_port 8080
+  http_port 8000
+  https_port 8080
 }
 
 ### DO NOT TOUCH ANYTHING ABOVE THIS LINE ###
