@@ -1,3 +1,5 @@
+### DO NOT TOUCH ANYTHING BELOW THIS LINE ###
+
 {
   # Don't send us email over there! It's only used for cert related notifications
   # on LENCR.
@@ -10,16 +12,18 @@
     secret_key {env.CF_R2_ACCESS_SECRET}
     prefix "proxyparty"
   }
-}
-
-http://proxypartylab.up.railway.app {
-  redir https://github.com/recaptime-dev/proxyparty-caddy
+  http_port 8080
 }
 
 tls {
-#  dns cloudflare {env.CF_BOT_TOKEN}
+  dns cloudflare {env.CF_BOT_TOKEN}
   resolvers 1.1.1.1
+}
 
+### DO NOT TOUCH ANYTHING ABOVE THIS LINE ###
+
+http://proxypartylab.up.railway.app {
+  redir https://github.com/recaptime-dev/proxyparty-caddy
 }
 
 http://proxyparty.recaptime.dev {
