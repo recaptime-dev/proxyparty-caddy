@@ -4,7 +4,6 @@
   # Don't send us email over there! It's only used for cert related notifications
   # on LENCR.
   email recaptimedev-internal-aaaanq4tfq2enunuq2hun7a63a@hackclub.slack.com
-  admin off
   storage s3 {
     host "33e6189a4a87f1923e71af8da171e2ed.r2.cloudflarestorage.com"
     bucket "caddy-datastore"
@@ -27,7 +26,7 @@ http://proxypartylab.up.railway.app {
 #              as a template for configuring redirects here.
 # Maintainers: ajhalili2006
 http://hcdemo.dev {
-  redit https://hackclub.com
+  redir https://hackclub.com
 }
 
 # Domain/s:    recaptime.dev, recaptime.eu.org
@@ -39,6 +38,9 @@ http://proxyparty.recaptime.dev {
     dns cloudflare {env.CF_BOT_TOKEN}
     resolvers 1.1.1.1
   }
+}
+http://proxy-test.proxyparty.recaptime.dev {
+  reverse_proxy https://deno.com
 }
 http://crew.recaptime.dev http://crew.recaptime.eu.org {
   redir https://wiki.recaptime.dev/domains/crew.recaptime.dev
