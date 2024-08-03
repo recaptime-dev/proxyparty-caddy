@@ -11,12 +11,20 @@ keep this maintained and support his open-source work.
 ## Setup
 
 Currently we use Railway for our Caddy-based setup, although we can hook up
-Deno Deploy for your (sub)domain in situtations where you cannot do `ALIAS`
-records but we only support redirects in that alternative route.
+[Deno Deploy](./server/) for your (sub)domain in situtations where you cannot
+do `ALIAS` records but we only support redirects in that alternative route.
 
 Note that since Railway handles the TLS termination part, we do not need
 to configure TLS ourselves, but we set up DNS integrations for Cloudflare,
 Vercel and Netlify if needed in the future.
+
+If you do use wildcard domains, disable Cloudflare Universal SSL (and subscribe to
+Advanced SSL or disable Cloudflare proxy for orange-proxied sites to avoid TLS errors)
+before overriding `_acme-challenge.<your-domain.tld>` with a CNAME pointing to a `challenge.railwaydns.net` subdomain.
+Also, you may need to either duplicate the service or upgrade to Pro to use more than two domains per service[^1].
+
+[^1]: See <https://docs.railway.app/reference/public-networking#custom-domain-count-limits> for context.
+By default, you can add up to 10 domains per service but contact Railway team if you need more.
 
 ### Adding your domain
 
