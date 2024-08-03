@@ -1,0 +1,16 @@
+{
+    "garden.andreijiroh.eu.org": {
+        "target": "https://wiki.andreijiroh.xyz",
+        "isBaseUrl": true
+    },
+    "wiki.andreijiroh.eu.org": {
+        "target": "https://wiki.andreijiroh.xyz",
+        "isBaseUrl": true
+    },
+    "issues.recaptime.dev": {
+        "target": null,
+        "isBaseUrl": true,
+        "disabled": true,
+        "disablement_reason": null
+    }
+}
