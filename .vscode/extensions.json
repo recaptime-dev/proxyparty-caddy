@@ -1,0 +1,6 @@
+{
+    "recommendations": [
+        "matthewpi.caddyfile-support",
+        "zamerick.vscode-caddyfile-syntax"
+    ]
+}
