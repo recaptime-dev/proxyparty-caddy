@@ -1,16 +1,56 @@
 {
-    "garden.andreijiroh.eu.org": {
+  "andreijiroh.eu.org": {
+    "target": "https://andreijiroh.xyz",
+    "isBaseUrl": true,
+    "subdomains": {
+      "garden": {
         "target": "https://wiki.andreijiroh.xyz",
         "isBaseUrl": true
-    },
-    "wiki.andreijiroh.eu.org": {
+      },
+      "wiki": {
         "target": "https://wiki.andreijiroh.xyz",
         "isBaseUrl": true
-    },
-    "issues.recaptime.dev": {
-        "target": null,
-        "isBaseUrl": true,
-        "disabled": true,
-        "disablement_reason": null
+      }
     }
+  },
+  "andreijiroh.uk.eu.org": {
+    "target": "https://andreijiroh.xyz",
+    "isBaseUrl": true,
+    "subdomains": {
+      "garden": {
+        "target": "https://wiki.andreijiroh.xyz",
+        "isBaseUrl": true
+      },
+      "wiki": {
+        "target": "https://wiki.andreijiroh.xyz",
+        "isBaseUrl": true
+      }
+    }
+  },
+  "andreijiroh.pp.ua": {
+    "target": "https://andreijiroh.xyz",
+    "isBaseUrl": true,
+    "subdomains": {
+      "garden": {
+        "target": "https://wiki.andreijiroh.xyz",
+        "isBaseUrl": true
+      },
+      "wiki": {
+        "target": "https://wiki.andreijiroh.xyz",
+        "isBaseUrl": true
+      }
+    }
+  },
+  "recaptime.dev": {
+    "target": null,
+    "isBaseUrl": true,
+    "disabled": false,
+    "disablement_reason": "To be implemented soon",
+    "subdomains": {
+      "issues": {
+        "disabled": true,
+        "disablement_reason": "To be implemented soon"
+      }
+    }
+  }
 }

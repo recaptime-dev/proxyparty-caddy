@@ -2,19 +2,8 @@ import { Hono } from 'hono'
 import { poweredBy } from './lib/utils.ts'
 import redirectsData from "./redirect-data.json" with { type: "json" }
 import { landingPageDisabledRedirect, landingPageNoTargetUrl, landingPageText404  } from "./lib/constants.ts"
-
-type routes = {
-  path: string,
-  target?: string
-}
-
-type redirectData = {
-  target: string
-  isBaseUrl: boolean
-  disabled?: boolean
-  disablement_reason?: string | null
-  routes: routes[]
-}
+import { parseDomain, fromUrl } from "parse-domain";
+import { redirectData } from "./lib/types.ts";
 
 const app = new Hono()
 const deployDomain = Deno.env.get("PROXYPARTY_BASE_URL") || "proxyparty-hono.recaptime.dev"
@@ -26,27 +15,37 @@ app.on("GET", "/*", async (c, next) => {
   if (c.req.path == "/" || c.req.path == "/ping") {
     return await next()
   }
-  const urlParser = new URL(c.req.url);
-  const { hostname } = urlParser
-  const data: redirectData = redirectsData[hostname]
-
-  console.log(`[debug] host: ${hostname}, path: ${c.req.path}`)
-  console.log(`[debug] redirect data: ${JSON.stringify(data)}`)
-
-  if (!data) {
-    return c.newResponse(landingPageText404(c.req.url), 404)
+  const { subDomains, domain, topLevelDomains } = parseDomain(fromUrl(c.req.url))
+  let subdomain = ``
+  let domainName = ``
+  if (subDomains) {
+    subdomain = subDomains.join(".")
   }
+  domainName = `${domain}.${topLevelDomains.join(".")}`
+  console.log(`[debug] subdomain from parse-domain: ${JSON.stringify(subDomains)}, result: ${subdomain}`)
+  console.log(`[debug] base domain from parse-domain: ${JSON.stringify([...domain, ...topLevelDomains])}, result: ${domainName}`)
+  const {hostname} = new URL(c.req.url);
+  const data: redirectData = redirectsData[domainName]
+  const subData = data?.subdomains?.[subdomain] || {}
+  console.log(`[debug] subdomain data: ${JSON.stringify(subData)}`)
 
-  if (data.disabled == true) {
-    return c.newResponse(landingPageDisabledRedirect(data.target, data.disablement_reason))
-  }
-
-  if (data.isBaseUrl == true) {
-    return c.redirect(`${data.target}${c.req.path}`)
-  }
-
-  if (data.target == "" || data.target == null || data.target == undefined) {
-    return c.newResponse(landingPageNoTargetUrl(hostname))
+  if (typeof subData.target === "string" && subData.target.length > 0) {
+    if (subData.disabled == true) {
+      return c.newResponse(landingPageDisabledRedirect(subData.disablement_reason))
+    }
+    return c.redirect(subData.target)
+  } else {
+    if (hostname == domainName) {
+      if (data.isBaseUrl == true) {
+        return c.redirect(`${data.target}${c.req.path}`)
+      }
+      if (data.disabled == true) {
+        return c.newResponse(landingPageDisabledRedirect(subData.disablement_reason))
+      }
+      return c.redirect(data.target)
+    } else {
+      return c.newResponse(landingPageText404())
+    }
   }
 })
 
@@ -62,8 +61,12 @@ app.get('/', (c) => {
     return c.redirect("https://github.com/recaptime-dev/proxyparty-caddy")
   }
 
+  if (data.disabled == true) {
+    return c.newResponse(landingPageDisabledRedirect(data.target, data.disablement_reason), 400)
+  }
+
   if (data.target == "" || data.target == null || data.target == undefined) {
-    return c.newResponse(landingPageNoTargetUrl(hostname))
+    return c.newResponse(landingPageNoTargetUrl(hostname), 400)
   }
 
   if (data) {
