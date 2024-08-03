@@ -1,0 +1,62 @@
+name: Request to add proxyparty to your (sub)domain
+description: >-
+  Use this form to request to add your (sub)domain into our Caddy configuration
+  and/or server/redirect-data.json file for our Deno Deploy-based
+  implementation.
+title: '[new-domain]: Request to add <domain here>'
+body:
+  - type: input
+    id: domain
+    attributes:
+      label: Domain to be added
+      description: >-
+        If it is a subdomain, please include both the subdomain and the base
+        domain. No protocols please.
+      placeholder: '[sub].domain.tld'
+    validations:
+      required: true
+  - type: input
+    id: target
+    attributes:
+      label: Target URL
+      description: Where do we want to redirect or proxy that domain into?
+      placeholder: https://target-url.tld/owo
+    validations:
+      required: true
+  - type: textarea
+    id: reason
+    attributes:
+      label: Please describe why you need this service
+      description: >-
+        We review your request before we add into our configuration to prevent
+        abuse. If it is intended for `proxyparty.hackclub.com`, we'll ask you to
+        file a issue there instead.
+      value: |-
+        Your reason goes here, just replace this text with a real one.
+
+        <!-- delete the text below this line, including this if not neeeded -->
+        **Paths with target URL overrides**:
+        - /path1: https://another-url.tld/todo
+        - /path2: https://why.dev/chaos
+    validations:
+      required: true
+  - type: checkboxes
+    id: options
+    attributes:
+      label: Anything else?
+      description: >-
+        If you tick the third checkbox, follow the instructions on the template
+        text above.
+      options:
+        - label: I need to proxy into the target URL instead of a simple redirect.
+          required: false
+        - label: Redirect all paths on the source URL
+          required: false
+        - label: I need to redirect some paths to other target URLs.
+          required: false
+  - type: markdown
+    attributes:
+      value: >-
+        ---
+        _This template was generated with [Issue Forms
+        Creator](https://issue-forms-creator.netlify.app)_
