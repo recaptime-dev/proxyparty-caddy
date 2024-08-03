@@ -2,18 +2,71 @@
   "version": "3",
   "packages": {
     "specifiers": {
-      "jsr:@hono/hono@^4.5.3": "jsr:@hono/hono@4.5.3"
+      "jsr:@hono/hono@^4.5.3": "jsr:@hono/hono@4.5.3",
+      "npm:parse-domain": "npm:parse-domain@8.2.1"
     },
     "jsr": {
       "@hono/hono@4.5.3": {
         "integrity": "429923b2b3c6586a1450862328d61a1346fee5841e8ae86c494250475057213c"
+      }
+    },
+    "npm": {
+      "clone-regexp@3.0.0": {
+        "integrity": "sha512-ujdnoq2Kxb8s3ItNBtnYeXdm07FcU0u8ARAT1lQ2YdMwQC+cdiXX8KoqMVuglztILivceTtp4ivqGSmEmhBUJw==",
+        "dependencies": {
+          "is-regexp": "is-regexp@3.1.0"
+        }
+      },
+      "convert-hrtime@5.0.0": {
+        "integrity": "sha512-lOETlkIeYSJWcbbcvjRKGxVMXJR+8+OQb/mTPbA4ObPMytYIsUbuOE0Jzy60hjARYszq1id0j8KgVhC+WGZVTg==",
+        "dependencies": {}
+      },
+      "function-timeout@0.1.1": {
+        "integrity": "sha512-0NVVC0TaP7dSTvn1yMiy6d6Q8gifzbvQafO46RtLG/kHJUBNd+pVRGOBoK44wNBvtSPUJRfdVvkFdD3p0xvyZg==",
+        "dependencies": {}
+      },
+      "ip-regex@5.0.0": {
+        "integrity": "sha512-fOCG6lhoKKakwv+C6KdsOnGvgXnmgfmp0myi3bcNwj3qfwPAxRKWEuFhvEFF7ceYIz6+1jRZ+yguLFAmUNPEfw==",
+        "dependencies": {}
+      },
+      "is-ip@5.0.1": {
+        "integrity": "sha512-FCsGHdlrOnZQcp0+XT5a+pYowf33itBalCl+7ovNXC/7o5BhIpG14M3OrpPPdBSIQJCm+0M5+9mO7S9VVTTCFw==",
+        "dependencies": {
+          "ip-regex": "ip-regex@5.0.0",
+          "super-regex": "super-regex@0.2.0"
+        }
+      },
+      "is-regexp@3.1.0": {
+        "integrity": "sha512-rbku49cWloU5bSMI+zaRaXdQHXnthP6DZ/vLnfdSKyL4zUzuWnomtOEiZZOd+ioQ+avFo/qau3KPTc7Fjy1uPA==",
+        "dependencies": {}
+      },
+      "parse-domain@8.2.1": {
+        "integrity": "sha512-9BnCqJ6YUOjeCIAJJEUiy+IPD1XlDSx9JRO6P82LGOHHiW4RXSZPpp9KQaU+ZSDoU0X68prewNc/o1e9ErRAeQ==",
+        "dependencies": {
+          "is-ip": "is-ip@5.0.1"
+        }
+      },
+      "super-regex@0.2.0": {
+        "integrity": "sha512-WZzIx3rC1CvbMDloLsVw0lkZVKJWbrkJ0k1ghKFmcnPrW1+jWbgTkTEWVtD9lMdmI4jZEz40+naBxl1dCUhXXw==",
+        "dependencies": {
+          "clone-regexp": "clone-regexp@3.0.0",
+          "function-timeout": "function-timeout@0.1.1",
+          "time-span": "time-span@5.1.0"
+        }
+      },
+      "time-span@5.1.0": {
+        "integrity": "sha512-75voc/9G4rDIJleOo4jPvN4/YC4GRZrY8yy1uU4lwrB3XEQbWve8zXoO5No4eFrGcTAMYyoY67p8jRQdtA1HbA==",
+        "dependencies": {
+          "convert-hrtime": "convert-hrtime@5.0.0"
+        }
       }
     }
   },
   "remote": {},
   "workspace": {
     "dependencies": [
-      "jsr:@hono/hono@^4.5.3"
+      "jsr:@hono/hono@^4.5.3",
+      "npm:parse-domain"
     ]
   }
 }

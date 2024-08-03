@@ -1,6 +1,7 @@
 {
   "imports": {
-    "hono": "jsr:@hono/hono@^4.5.3"
+    "hono": "jsr:@hono/hono@^4.5.3",
+    "parse-domain": "npm:parse-domain"
   },
   "tasks": {
     "start": "deno run --watch -A main.ts"
