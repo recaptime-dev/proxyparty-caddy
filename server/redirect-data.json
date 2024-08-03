@@ -1,4 +1,5 @@
 {
+  "$schema": "../.vscode/schemas/redirectDataSchema.json",
   "andreijiroh.eu.org": {
     "target": "https://andreijiroh.xyz",
     "isBaseUrl": true,
@@ -42,15 +43,21 @@
     }
   },
   "recaptime.dev": {
-    "target": null,
-    "isBaseUrl": true,
+    "target": "https://recaptime.dev",
+    "isBaseUrl": false,
     "disabled": false,
-    "disablement_reason": "To be implemented soon",
+    "wildcardRedirect": true,
     "subdomains": {
       "issues": {
         "disabled": true,
         "disablement_reason": "To be implemented soon"
       }
     }
+  },
+  "lorebooks.eu.org": {
+    "target": "https://landing.lorebooks.eu.org/wiki-not-found",
+    "srcUrlAsQueryParam": true,
+    "queryParamName": "url",
+    "wildcardRedirect": true
   }
 }

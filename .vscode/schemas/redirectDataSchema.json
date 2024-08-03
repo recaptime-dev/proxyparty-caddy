@@ -1,0 +1,97 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "*.target": {
+      "type": ["string", "null"],
+      "description": "The target URL for redirection"
+    },
+    "*.isBaseUrl": {
+      "type": "boolean",
+      "description": "Indicates if this is a base URL redirect"
+    },
+    "*.disabled": {
+      "type": "boolean",
+      "description": "Whether this redirection is disabled"
+    },
+    "*.disablement_reason": {
+      "type": ["string", "null"],
+      "description": "Reason for disabling redirection"
+    },
+    "*.wildcardRedirect": {
+      "type": "boolean",
+      "description": "Enables wildcard redirection for this domain"
+    },
+    "*.srcUrlAsQueryParam": {
+      "type": "boolean",
+      "description": "Includes source URL as a query parameter"
+    },
+    "*.queryParamName": {
+      "type": "string",
+      "description": "Name of the query parameter for source URL"
+    },
+    "*.routes": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/definitions/baseDomainConfig"
+      },
+      "description": "Route-specific configurations for subdomains"
+    },
+    "*.subdomains": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/definitions/subdomain"
+      },
+      "description": "Subdomain-specific configurations"
+    }
+  },
+  "additionalProperties": false,
+  "required": ["subdomains"],
+  "definitions": {
+    "baseDomainConfig": {
+      "type": "object",
+      "properties": {
+        "target": {
+          "$ref": "#/properties/*.target"
+        },
+        "isBaseUrl": {
+          "$ref": "#/properties/*.isBaseUrl"
+        },
+        "disabled": {
+          "$ref": "#/properties/*.disabled"
+        },
+        "disablement_reason": {
+          "$ref": "#/properties/*.disablement_reason"
+        },
+        "wildcardRedirect": {
+          "$ref": "#/properties/*.wildcardRedirect"
+        },
+        "srcUrlAsQueryParam": {
+          "$ref": "#/properties/*.srcUrlAsQueryParam"
+        },
+        "queryParamName": {
+          "$ref": "#/properties/*.queryParamName"
+        },
+        "routes": {
+          "$ref": "#/properties/*.routes"
+        }
+      },
+      "additionalProperties": false
+    },
+    "subdomain": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/baseDomainConfig"
+        },
+        {
+          "properties": {
+            "routes": {
+              "$ref": "#/properties/*.routes"
+            }
+          },
+          "required": ["routes"]
+        }
+      ]
+    }
+  }
+}

@@ -1,7 +1,7 @@
 import { Hono } from 'hono'
 import { poweredBy } from './lib/utils.ts'
 import redirectsData from "./redirect-data.json" with { type: "json" }
-import { landingPageDisabledRedirect, landingPageNoTargetUrl, landingPageText404  } from "./lib/constants.ts"
+import { landingPageDisabledRedirect, landingPageNoTargetUrl, landingPageText404, repo  } from "./lib/constants.ts"
 import { parseDomain, fromUrl } from "parse-domain";
 import { redirectData } from "./lib/types.ts";
 
@@ -15,17 +15,25 @@ app.on("GET", "/*", async (c, next) => {
   if (c.req.path == "/" || c.req.path == "/ping") {
     return await next()
   }
-  const { subDomains, domain, topLevelDomains } = parseDomain(fromUrl(c.req.url))
+
+  console.log(`[debug] url: ${c.req.url}`)
+  const parseDomainData = parseDomain(fromUrl(c.req.url))
+  console.log(`[debug] parse-domain data: ${JSON.stringify(parseDomainData)}`)
+  
   let subdomain = ``
   let domainName = ``
-  if (subDomains) {
-    subdomain = subDomains.join(".")
+  
+  if (parseDomainData.subDomains) {
+    subdomain = parseDomainData.subDomains.join(".")
   }
-  domainName = `${domain}.${topLevelDomains.join(".")}`
-  console.log(`[debug] subdomain from parse-domain: ${JSON.stringify(subDomains)}, result: ${subdomain}`)
-  console.log(`[debug] base domain from parse-domain: ${JSON.stringify([...domain, ...topLevelDomains])}, result: ${domainName}`)
+  
+  if (parseDomainData.domain && parseDomainData.topLevelDomains) {
+    domainName = `${parseDomainData.domain}.${parseDomainData.topLevelDomains?.join(".")}`
+  }
+  
   const {hostname} = new URL(c.req.url);
-  const data: redirectData = redirectsData[domainName]
+  const data: redirectData = redirectsData?.[domainName] || {}
+  console.log(`[debug] base domain config: ${JSON.stringify(data)}`)
   const subData = data?.subdomains?.[subdomain] || {}
   console.log(`[debug] subdomain data: ${JSON.stringify(subData)}`)
 
@@ -36,40 +44,52 @@ app.on("GET", "/*", async (c, next) => {
     return c.redirect(subData.target)
   } else {
     if (hostname == domainName) {
-      if (data.isBaseUrl == true) {
-        return c.redirect(`${data.target}${c.req.path}`)
+      if (typeof data.target === "string" && data.target.length > 0) {
+        if (data.isBaseUrl == true) {
+          return c.redirect(`${data.target}${c.req.path}`)
+        }
+        return c.redirect(data.target)
       }
       if (data.disabled == true) {
         return c.newResponse(landingPageDisabledRedirect(subData.disablement_reason))
       }
-      return c.redirect(data.target)
+      return c.newResponse(landingPageText404(c.req.url), 404)
     } else {
-      return c.newResponse(landingPageText404())
+      return c.redirect(repo)
     }
   }
 })
 
 app.get('/', (c) => {
-  const urlParser = new URL(c.req.url);
-  const { hostname } = urlParser
-  const data: redirectData = redirectsData[hostname]
-
-  console.log(`[debug] host: ${hostname}`)
-  console.log(`[debug] redirect data: ${JSON.stringify(data)}`)
+  console.log(`[debug] url: ${c.req.url}`)
+  const parseDomainData = parseDomain(fromUrl(c.req.url))
+  console.log(`[debug] parse-domain data: ${JSON.stringify(parseDomainData)}`)
+  
+  let subdomain = ``
+  let domainName = ``
+  
+  if (parseDomainData.subDomains) {
+    subdomain = subDomains.join(".")
+  }
+  
+  if (parseDomainData.domain && parseDomainData.topLevelDomains) {
+    domainName = `${domain}.${topLevelDomains?.join(".")}`
+  }
+  const {hostname} = new URL(c.req.url);
+  const data: redirectData = redirectsData?.[domainName] || {}
+  console.log(`[debug] base domain config: ${JSON.stringify(data)}`)
+  const subData = data?.subdomains?.[subdomain] || {}
+  console.log(`[debug] subdomain data: ${JSON.stringify(subData)}`)
 
   if (hostname == "localhost" || hostname == deployDomain || hostname == `${denoDeploySubdomain}.deno.dev`) {
-    return c.redirect("https://github.com/recaptime-dev/proxyparty-caddy")
+    return c.redirect(repo)
   }
 
   if (data.disabled == true) {
-    return c.newResponse(landingPageDisabledRedirect(data.target, data.disablement_reason), 400)
+    return c.newResponse(landingPageDisabledRedirect(data.disablement_reason), 400)
   }
 
-  if (data.target == "" || data.target == null || data.target == undefined) {
-    return c.newResponse(landingPageNoTargetUrl(hostname), 400)
-  }
-
-  if (data) {
+  if (typeof data.target == "string" && data.target.length > 0) {
     return c.redirect(data.target)
   }
   return c.newResponse(landingPageText404(c.req.url), 404)

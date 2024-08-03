@@ -1,21 +1,19 @@
-type routes = {
-  path: string;
-  target?: string;
-};
 
-type subdomain = {
-  target?: string;
+type baseDomainConfig = {
+  target?: string | null;
   isBaseUrl?: boolean;
   disabled?: boolean;
   disablement_reason?: string | null;
-  routes: routes[];
+  wildcardRedirect?: boolean;
+  srcUrlAsQueryParam?: boolean;
+  queryParamName?: string
 };
 
-export type redirectData = {
-  target?: string;
-  isBaseUrl?: boolean;
-  disabled?: boolean;
-  disablement_reason?: string | null;
-  routes?: routes[];
+type subdomain = baseDomainConfig & {
+  routes?: Record<string, baseDomainConfig>;
+};
+
+export type redirectData = baseDomainConfig & {
+  routes?: Record<string, baseDomainConfig>
   subdomains: Record<string, subdomain>
 };

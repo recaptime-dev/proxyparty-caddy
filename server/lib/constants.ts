@@ -24,3 +24,7 @@ Please contact @ajhalili2006 on hackclub.slack.com / recaptime-dev.zulipchat.com
 OR file a new issue at https://github.com/recaptime-dev/proxyparty-caddy/issues/new/choose \
 if you have questions about this service from Recap Time Squad.
 `;
+
+export const repo =
+  Deno.env.get("REPO_URL") ||
+  "https://github.com/recaptime-dev/proxyparty-caddy";
