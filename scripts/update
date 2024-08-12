@@ -12,16 +12,8 @@ SUDO=${SUDO:-"sudo"}
 [ ${FF_FORCE_GIT_PULL+x} ] && git -C $CADDY_CONFIG_HOME pull --ff-only
 
 if [[ ${FF_USE_DOCKER} == "1" ]]; then
-  if [[ $FF_ONLY_RELOAD_CONFIG == "1" ]]; then
-    caddy_container_id=$(docker ps | grep caddy | awk '{print $1;}')
-    docker exec -w /etc/caddy $caddy_container_id caddy reload
-  else
-    $SUDO systemctl restart caddy-docker.service
-  fi
+  caddy_container_id=$(docker ps | grep caddy | awk '{print $1;}')
+  docker exec -w /etc/caddy $caddy_container_id caddy reload
 else
-  if [[ $FF_ONLY_RELOAD_CONFIG == "1" ]]; then
-    caddy reload --config "${CADDY_CONFIG_HOME}/config/caddy/meta.Caddyfile" --adapter caddyfile
-  else
-    $SUDO systemctl restart caddy.service
-  fi
+  caddy reload --config "${CADDY_CONFIG_HOME}/config/caddy/meta.Caddyfile" --adapter caddyfile
 fi
