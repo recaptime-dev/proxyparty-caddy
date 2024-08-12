@@ -10,6 +10,7 @@ keep this maintained and support his open-source work.
 
 ## Setup
 
+See `SETUP.md` for a more detailed document about our setup
 
 ## Self-hosting
 
