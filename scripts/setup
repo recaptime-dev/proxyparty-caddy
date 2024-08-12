@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+
+docker pull caddy:2.8.4-alpine
+docker pull caddy:2.8.4-builder-alpine

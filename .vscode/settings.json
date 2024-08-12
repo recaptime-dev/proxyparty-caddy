@@ -3,5 +3,15 @@
     "deno.enablePaths": [
         "./server"
     ],
-    "editor.inlayHints.enabled": "off"
+    "editor.inlayHints.enabled": "off",
+    "files.associations": {
+        "*.Caddyfile": "caddyfile"
+    },
+    "material-icon-theme.files.associations": {
+        "*.Caddyfile": "Caddy"
+    },
+    "dotenv.enableAutocloaking": false,
+    "conventionalCommits.scopes": [
+        "caddy"
+    ]
 }

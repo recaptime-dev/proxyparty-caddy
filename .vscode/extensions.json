@@ -1,6 +1,8 @@
 {
     "recommendations": [
         "matthewpi.caddyfile-support",
-        "zamerick.vscode-caddyfile-syntax"
+        "zamerick.vscode-caddyfile-syntax",
+        "hangxingliu.vscode-systemd-support",
+        "coolbear.systemd-unit-file"
     ]
 }
