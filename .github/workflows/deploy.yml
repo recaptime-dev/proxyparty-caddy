@@ -31,7 +31,7 @@ jobs:
       - name: Setup Tailscale authenication
         run: |
           curl -fsSL https://tailscale.com/install.sh | bash -
-          sudo tailscale up --auth-key=${TAILSCALE_OAUTH_CLIENT_SECRET} --advertise-tags=tag:github-actions,tag:ci-builds,tag:dev
+          sudo tailscale up --auth-key="${TAILSCALE_OAUTH_CLIENT_SECRET}?ephemeral=true&preauthorized=true" --advertise-tags=tag:github-actions,tag:ci-builds,tag:dev
         env:
           TAILSCALE_OAUTH_CLIENT_SECRET: ${{ steps.dotenvx.outputs.TAILSCALE_OAUTH_CLIENT_SECRET }}
       - name: Run update script
