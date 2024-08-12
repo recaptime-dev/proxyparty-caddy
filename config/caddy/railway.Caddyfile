@@ -57,7 +57,8 @@ http://*.andreijiroh.xyz {
   handle @garden {
     redir https://wiki.andreijiroh.xyz{uri}
   }
-  @linkinbio host http://andreijiroh.xyz {
+  @linkinbio host http://andreijiroh.xyz 
+  handle @linkinbio {
     redir https://andreijiroh.xyz/links
   }
 }
