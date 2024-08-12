@@ -20,7 +20,7 @@ if [[ ${FF_USE_DOCKER} == "1" ]]; then
   fi
 else
   if [[ $FF_ONLY_RELOAD_CONFIG == "1" ]]; then
-    caddy reload --config "${CADDY_CONFIG_HOME/config/caddy/meta.Caddyfile" --adapter caddyfile
+    caddy reload --config "${CADDY_CONFIG_HOME}/config/caddy/meta.Caddyfile" --adapter caddyfile
   else
     $SUDO systemctl restart caddy.service
   fi

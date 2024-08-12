@@ -50,4 +50,5 @@ jobs:
       - name: Run update script
         run: |
           ssh -o "UserKnownHostsFile=/dev/null" -o "StrictHostKeyChecking=no" caddy@proxypartylab-prod-gcp.tuna-skate.ts.net git -C /var/caddy/src pull --ff-only
-          ssh -o "UserKnownHostsFile=/dev/null" -o "StrictHostKeyChecking=no" caddy@proxypartylab-prod-gcp.tuna-skate.ts.net "/var/caddy/src/scripts/update"
+          ssh -o "UserKnownHostsFile=/dev/null" -o "StrictHostKeyChecking=no" root@proxypartylab-prod-gcp.tuna-skate.ts.net FF_ONLY_RELOAD_CONFIG=1 /var/caddy/src/scripts/setup-server || true
+          ssh -o "UserKnownHostsFile=/dev/null" -o "StrictHostKeyChecking=no" caddy@proxypartylab-prod-gcp.tuna-skate.ts.net FF_ONLY_RELOAD_CONFIG=1 /var/caddy/src/scripts/update
