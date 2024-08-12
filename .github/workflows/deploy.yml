@@ -34,7 +34,19 @@ jobs:
           sudo tailscale up --auth-key="${TAILSCALE_OAUTH_CLIENT_SECRET}?ephemeral=true&preauthorized=true" --advertise-tags=tag:github-actions,tag:ci-builds,tag:dev
         env:
           TAILSCALE_OAUTH_CLIENT_SECRET: ${{ steps.dotenvx.outputs.TAILSCALE_OAUTH_CLIENT_SECRET }}
+      - name: Build caddy
+        run: |
+          wget https://github.com/caddyserver/xcaddy/releases/download/v0.4.2/xcaddy_0.4.2_linux_amd64.tar.gz -O /tmp/caddy.tar.gz
+          sudo tar zxf /tmp/caddy.tar.gz -C /usr/local/bin
+          sudo chmod +x /usr/local/bin/xcaddy
+          xcaddy build \
+            --output ./caddy-deploy \
+            --with github.com/caddy-dns/cloudflare \
+            --with github.com/caddy-dns/vercel \
+            --with github.com/caddy-dns/netlify \
+            --with github.com/ss098/certmagic-s3
+          scp ./caddy-deploy caddy@proxypartylab-prod-gcp.tuna-skate.ts.net:/var/caddy/bin/caddy
       - name: Run update script
         run: |
-          ssh caddy@proxypartylab-prod-gcp.tuna-skate.ts.net "cd /var/caddy/src && git pull --ff-only"
-          ssh caddy@proxypartylab-prod-gcp.tuna-skate.ts.net "cd /var/caddy/src && ./scripts/update"
+          ssh -o "StrictHostKeyChecking no" caddy@proxypartylab-prod-gcp.tuna-skate.ts.net git -C /var/caddy/src pull --ff-only
+          ssh -o "StrictHostKeyChecking no" caddy@proxypartylab-prod-gcp.tuna-skate.ts.net "/var/caddy/src/update"

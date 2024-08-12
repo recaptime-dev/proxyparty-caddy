@@ -1,3 +1,19 @@
 #!/usr/bin/env bash
 
-echo "TODO Write script here"
+CADDY_CONFIG_HOME=${CADDY_CONFIG_HOME:-"$HOME/src"}
+FF_USE_DOCKER=${FF_USE_DOCKER:-"0"}
+
+[ ${FF_FORCE_GIT_PULL+x} ] && git -C $CADDY_CONFIG_HOME pull --ff-only
+
+if [[ ${FF_USE_DOCKER+x} ]]; then
+  cp "${CADDY_CONFIG_HOME}/config/systemd/caddy-docker.service" "$HOME/.config/systemd/user/caddy-docker.service"
+else
+  cp "${CADDY_CONFIG_HOME}/config/systemd/caddy.service" "$HOME/.config/systemd/user/caddy.service"
+fi
+systemctl --user daemon-reload
+
+if [[ ${FF_USE_DOCKER+x} ]]; then
+  systemctl --user restart caddy-docker.service
+else
+  systemctl --user restart caddy.service 
+fi
