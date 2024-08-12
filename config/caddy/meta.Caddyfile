@@ -1,0 +1,59 @@
+### DO NOT TOUCH ANYTHING BELOW THIS LINE ###
+{
+  # Don't send us email over there! It's only used for cert related notifications
+  # on LENCR.
+  email recaptimedev-internal-aaaanq4tfq2enunuq2hun7a63a@hackclub.slack.com
+  storage s3 {
+    host "{env.CF_R2_ACCOUNT_ID}.r2.cloudflarestorage.com"
+    bucket {env.CF_R2_BUCKET}
+    access_id {env.CF_R2_ACCESS_KEY}
+    secret_key {env.CF_R2_ACCESS_SECRET}
+    prefix "proxyparty"
+  }
+}
+### DO NOT TOUCH ANYTHING ABOVE THIS LINE ###
+
+# Domain/s:    recaptime.dev, recaptime.eu.org
+# Nameserver:  Cloudflare DNS
+# Description: Meta configs for recaptime.dev and related domains
+# Maintainers: ajhalili2006
+*.recaptime.dev {
+  tls {
+    dns cloudflare {env.CF_BOT_TOKEN}
+    resolvers 1.1.1.1
+  }
+  
+  @proxyparty host proxyparty.recaptime.dev
+  handle @proxyparty {
+    redir https://github.com/recaptime-dev/proxyparty-caddy
+  }
+  @crew host crew.recaptime.dev
+  handle @crew {
+    redir https://wiki.recaptime.dev/domains/crew.recaptime.dev
+  }
+
+  # Fallback redirect for otherwise unhandled routes.
+  handle {
+    redir https://recaptime.dev
+  }
+}
+*.recaptime.eu.org {
+  tls {
+    dns cloudflare {env.CF_BOT_TOKEN}
+    resolvers 1.1.1.1
+  }
+  
+  @proxyparty host proxyparty.recaptime.eu.org
+  handle @proxyparty {
+    redir https://github.com/recaptime-dev/proxyparty-caddy
+  }
+  @crew host crew.recaptime.eu.org
+  handle @crew {
+    redir https://wiki.recaptime.dev/domains/crew.recaptime.dev
+  }
+
+  # Fallback redirect for otherwise unhandled routes.
+  handle {
+    redir https://recaptime.dev
+  }
+}

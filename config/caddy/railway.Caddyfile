@@ -52,12 +52,12 @@ http://crew.recaptime.dev http://crew.recaptime.eu.org {
 
 # Domain/s:    andreijiroh.xyz
 # Maintainers: ajhalili2006
-http://andreijiroh.pp.ua http://andreijiroh.uk.eu.org http://andreijiroh.eu.org {
-  redir https://andreijiroh.xyz{uri} permanent
-}
-http://links.andreijiroh.xyz http://links.andreijiroh.uk.eu.org http://links.andreijiroh.eu.org http://links.andreijiroh.pp.ua {
-  redir https://andreijiroh.xyz/links
-}
-http://wiki.andreijiroh.eu.org http://garden.andreijiroh.eu.org http://garden.andreijiroh.xyz https:///wiki.andreijiroh.uk.eu.org http://garden.andreijiroh.uk.eu.org http:///wiki.andreijiroh.pp.ua http://garden.andreijiroh.pp.ua {
-  redir https://wiki.andreijiroh.xyz{uri}
+http://*.andreijiroh.xyz {
+  @garden host http://garden.andreijiroh.xyz
+  handle @garden {
+    redir https://wiki.andreijiroh.xyz{uri}
+  }
+  @linkinbio host http://andreijiroh.xyz {
+    redir https://andreijiroh.xyz/links
+  }
 }
