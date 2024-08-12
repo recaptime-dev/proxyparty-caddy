@@ -4,7 +4,7 @@
   # on LENCR.
   email recaptimedev-internal-aaaanq4tfq2enunuq2hun7a63a@hackclub.slack.com
   storage s3 {
-    host "{env.CF_R2_ACCOUNT_ID}.r2.cloudflarestorage.com"
+    host {env.CF_R2_ACCOUNT_ENDPOINT}
     bucket {env.CF_R2_BUCKET}
     access_id {env.CF_R2_ACCESS_KEY}
     secret_key {env.CF_R2_ACCESS_SECRET}

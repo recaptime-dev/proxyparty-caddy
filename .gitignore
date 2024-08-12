@@ -1,1 +1,4 @@
 .env.keys
+decrypted.env
+node_modules
+.cache
