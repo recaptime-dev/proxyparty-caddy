@@ -1,7 +1,7 @@
 [build]
 builder = "DOCKERFILE"
 dockerfilePath = "docker/Dockerfile"
-watchPatterns = ["docker/Dockerfile", ".trigger-deploy", "railway.toml"]
+watchPatterns = ["docker/Dockerfile", ".trigger-deploy", "railway.toml", "config/caddy/*.Caddyfile"]
 
 [deploy]
 numReplicas = 1
