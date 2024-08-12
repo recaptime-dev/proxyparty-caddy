@@ -8,18 +8,11 @@ break. [Consider sponsoring Andrei Jiroh](https://github.com/sponsors/ajhalili20
 [his Railway profile](https://railway.app/u/ajhalili2006) if you like to
 keep this maintained and support his open-source work.
 
-## Setup
+## Setup / Self-host
 
 See `SETUP.md` for a more detailed document about our setup
+and to help you
 
-## Self-hosting
+## License
 
-You can self-host this via the Railway template using the link below and add
-your API keys as needed (mainly for data storage via Cloudflare R2 over S3 API
-and API calls for TXT DNS challenges during certificate issuances).
-
-[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/template/PqHfEF?referralCode=ajhalili2006)
-
-**Sponsorship notice**: By using the button below and paying for your first
-bill or buying compute credits, Andrei Jiroh will receive 5 USD in compute
-credits on Railway. [Learn more about how referrals work](https://docs.railway.app/reference/accounts#referrals).
+MPL-2.0
