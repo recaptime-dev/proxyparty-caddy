@@ -6,16 +6,17 @@ Requires=docker.service
 [Service]
 # If you use another system user for Caddy, adjust this setting.
 User=caddy
+Group=caddy-admin
 TimeoutStartSec=0
 Restart=always
 # If this repo is cloned on another directory, adjust both RuntimeDirectory
 # and WorkingDirectory
-RuntimeDirectory=/var/caddy/src
+RuntimeDirectory=caddyserv
 WorkingDirectory=/var/caddy/src
 ExecStartPre=-/usr/bin/docker stop %n
 ExecStartPre=-/usr/bin/docker rm %n
-ExecStart=/usr/bin/docker run -p 80:8000 -p 443:8080 --rm --name %n --cap-add CAP_NET_BIND_SERVICE -v ./config/caddy/meta.Caddyfile:/etc/caddy/Caddyfile -v caddy_data ghcr.io/recaptime-dev/proxyparty-caddy
-AmbientCapabilities=CAP_NET_BIND_SERVICE
+ExecStart=/usr/bin/docker run -p 80:8000 -p 443:8080 --rm --name %n --cap-add CAP_NET_BIND_SERVICE --cap-add CAP_NET_ADMIN --env-file ./decrypted.env -v ./config/caddy/meta.Caddyfile:/etc/caddy/Caddyfile -v caddy_data ghcr.io/recaptime-dev/proxyparty-caddy
+AmbientCapabilities=CAP_NET_ADMIN CAP_NET_BIND_SERVICE
 EnvironmentFile=/var/caddy/src/decrypted.env
 
 [Install]
