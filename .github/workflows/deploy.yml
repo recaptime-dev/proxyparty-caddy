@@ -1,0 +1,40 @@
+name: Deployments
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  proxypartylab-prod-railwayapp:
+    name: Production Caddy server on railway.app
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://proxypartylab.up.railway.app
+    steps:
+      - uses: actions/checkout@v4
+      - run: echo TODO
+  proxypartylab-prod-gcp:
+    name: Dedicated Caddy server on GCP Compute Engine
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://proxyparty.recaptime.dev
+    steps:
+      - uses: actions/checkout@v4
+      - name: Load secrets via dotenvx
+        id: dotenvx
+        uses: andreijiroh-dev/dotenvx-action@main
+        with:
+          key: ${{ secrets.DOTENV_PRIVATE_KEY_CI }}
+          path: .env.ci
+      - name: Setup Tailscale authenication
+        run: |
+          curl -fsSL https://tailscale.com/install.sh | bash -
+          sudo tailscale up --auth-key=${TAILSCALE_OAUTH_CLIENT_SECRET} --advertise-tags=tag:github-actions,tag:ci-builds,tag:dev
+        env:
+          TAILSCALE_OAUTH_CLIENT_SECRET: ${{ steps.dotenvx.outputs.TAILSCALE_OAUTH_CLIENT_SECRET }}
+      - name: Run update script
+        run: |
+          ssh caddy@proxypartylab-prod-gcp.tuna-skate.ts.net "cd /var/caddy/src && git pull --ff-only"
+          ssh caddy@proxypartylab-prod-gcp.tuna-skate.ts.net "cd /var/caddy/src && ./scripts/update"
