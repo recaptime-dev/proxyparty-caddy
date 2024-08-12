@@ -45,8 +45,9 @@ jobs:
             --with github.com/caddy-dns/vercel \
             --with github.com/caddy-dns/netlify \
             --with github.com/ss098/certmagic-s3
-          scp ./caddy-deploy caddy@proxypartylab-prod-gcp.tuna-skate.ts.net:/var/caddy/bin/caddy
+          scp -o "UserKnownHostsFile=/dev/null" -o "StrictHostKeyChecking=no" ./caddy-deploy caddy@proxypartylab-prod-gcp.tuna-skate.ts.net:/var/caddy/bin/caddy
+          ssh -o "UserKnownHostsFile=/dev/null" -o "StrictHostKeyChecking=no" caddy@proxypartylab-prod-gcp.tuna-skate.ts.net chmod +x /var/caddy/bin/caddy
       - name: Run update script
         run: |
-          ssh -o "StrictHostKeyChecking no" caddy@proxypartylab-prod-gcp.tuna-skate.ts.net git -C /var/caddy/src pull --ff-only
-          ssh -o "StrictHostKeyChecking no" caddy@proxypartylab-prod-gcp.tuna-skate.ts.net "/var/caddy/src/update"
+          ssh -o "UserKnownHostsFile=/dev/null" -o "StrictHostKeyChecking=no" caddy@proxypartylab-prod-gcp.tuna-skate.ts.net git -C /var/caddy/src pull --ff-only
+          ssh -o "UserKnownHostsFile=/dev/null" -o "StrictHostKeyChecking=no" caddy@proxypartylab-prod-gcp.tuna-skate.ts.net "/var/caddy/src/update"
