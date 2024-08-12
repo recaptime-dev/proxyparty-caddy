@@ -5,10 +5,10 @@
   # on LENCR.
   email recaptimedev-internal-aaaanq4tfq2enunuq2hun7a63a@hackclub.slack.com
   storage s3 {
-    host "33e6189a4a87f1923e71af8da171e2ed.r2.cloudflarestorage.com"
-    bucket "caddy-datastore"
-    access_id {env.CF_R2_ACCESS_KEY}
-    secret_key {env.CF_R2_ACCESS_SECRET}
+    host "gateway.storjshare.io"
+    bucket "caddyserver-data"
+    access_id {env.STORJ_DCS_GATEWAY_ACCESS_ID}
+    secret_key {env.STORJ_DCS_GATEWAY_SECRET_KEY}
     prefix "proxyparty"
   }
   http_port 8000
