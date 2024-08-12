@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+set -xe
+CADDY_CONFIG_HOME=${CADDY_CONFIG_HOME:-"$HOME/src"}
+
+mkdir -p ~/.config/systemd/user
+cp "${CADDY_CONFIG_HOME}/config/systemd/caddy-docker.service" "$HOME/.config/systemd/user/caddy-docker.service"
+cp "${CADDY_CONFIG_HOME}/config/systemd/caddy.service" "$HOME/.config/systemd/user/caddy.service"
+systemctl --user daemon-reload
+
+if [[ ${1} == "docker" ]]; then
+  systemcto --user disable caddy.service --now
+  systemctl --user enable caddy-docker.service --now
+else
+  systemctl --user enable caddy.service --now
+  systemctl --user disable caddy-docker.service --now
+fi
