@@ -3,6 +3,8 @@
   # Don't send us email over there! It's only used for cert related notifications
   # on LENCR.
   email recaptimedev-internal-aaaanq4tfq2enunuq2hun7a63a@hackclub.slack.com
+
+  # use Storj DCS for storing SSL keys via S3 API
   storage s3 {
     host "gateway.storjshare.io"
     bucket "caddyserver-data"
@@ -37,6 +39,7 @@
     redir https://recaptime.dev
   }
 }
+
 *.recaptime.eu.org {
   tls {
     dns cloudflare {env.CF_BOT_TOKEN}
@@ -55,5 +58,68 @@
   # Fallback redirect for otherwise unhandled routes.
   handle {
     redir https://recaptime.dev
+  }
+}
+
+# Domains:     andreijiroh.xyz, andreijiroh.eu.org, andreijiroh.pp.ua, andreijiroh.uk.eu.org, ajhalili2006.obl.ong
+# Description: Andrei Jiroh's personal domains
+# Maintainer:  ajhalili2006
+*.andreijiroh.xyz {
+  tls {
+    dns cloudflare {env.CF_BOT_TOKEN}
+    resolvers 1.1.1.1
+  }
+
+  @gardenOld host garden.andreijiroh.xyz
+  handle @gardenOld {
+    redir https://wiki.andreijiroh.xyz{path}
+  }
+
+  @links host links.andreijiroh.xyz
+  handle @links {
+    redir https://andreijiroh.xyz/links
+  }
+
+  handle host releases.andreijiroh.xyz {
+    redir https://packages.andreijiroh.xyz/releases{path}
+  }
+
+  @releasesCdn host releases.cdn.andreijiroh.xyz
+  handle @releasesCdn {
+    redir https://packages.andreijiroh.xyz/releases{path}
+  }
+  @ppa host ppa.cdn.andreijiroh.xyz
+  handle @ppa {
+    redir https://packages.andreijiroh.xyz{path}
+  }
+
+  handle {
+    redir https://andreijiroh.xyz
+  }
+}
+
+*.ajhalili2006.obl.ong {
+  @home host ajhalili2006.obl.ong
+  handle @home {
+    redir https://andreijiroh.xyz{path}
+  }
+
+  @gardenOld host garden.ajhalili2006.obl.ong
+  handle @gardenOld {
+    redir https://wiki.andreijiroh.xyz{path}
+  }
+
+  @wiki host wiki.ajhalili2006.obl.ong
+  handle @gardenOld {
+    redir https://wiki.andreijiroh.xyz{path}
+  }
+
+  @links host links.ajhalili2006.obl.ong
+  handle @links {
+    redir https://andreijiroh.xyz/links
+  }
+
+  handle {
+    redir https://andreijiroh.xyz
   }
 }
