@@ -80,7 +80,8 @@
     redir https://andreijiroh.xyz/links
   }
 
-  handle host releases.andreijiroh.xyz {
+  @releases host releases.andreijiroh.xyz
+  handle @releases {
     redir https://packages.andreijiroh.xyz/releases{path}
   }
 

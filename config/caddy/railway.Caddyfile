@@ -9,7 +9,7 @@
     bucket "caddyserver-data"
     access_id {env.STORJ_DCS_GATEWAY_ACCESS_ID}
     secret_key {env.STORJ_DCS_GATEWAY_SECRET_KEY}
-    prefix "proxyparty"
+    prefix "proxyparty-railway"
   }
   http_port 8000
   https_port 8080

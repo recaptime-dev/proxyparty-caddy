@@ -11,7 +11,7 @@ fi
 set -xe
 CADDY_CONFIG_HOME=${CADDY_CONFIG_HOME:-"/var/caddy/src"}
 
-cp "${CADDY_CONFIG_HOME}/config/sudo_caddy.conf" "/etc/sudoers.d/caddy.conf"
+cp "${CADDY_CONFIG_HOME}/config/sudo_caddy.conf" "/etc/sudoers.d/caddy"
 
 cp "${CADDY_CONFIG_HOME}/config/systemd/caddy-docker.service" "/etc/systemd/system/caddy-docker.service"
 cp "${CADDY_CONFIG_HOME}/config/systemd/caddy.service" "/etc/systemd/system/caddy.service"

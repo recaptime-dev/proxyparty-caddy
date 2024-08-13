@@ -1,0 +1,5 @@
+.github/ @recaptime-dev/squad
+config/ @recaptime-dev/squad
+scripts/ @recaptime-dev/squad
+.env.ci @recaptime-dev/squad
+.env.production @recaptime-dev/squad
