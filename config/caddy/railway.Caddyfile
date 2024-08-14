@@ -1,24 +1,23 @@
 ### DO NOT TOUCH ANYTHING BELOW THIS LINE ###
-
 {
-  # Don't send us email over there! It's only used for cert related notifications
-  # on LENCR.
-  email recaptimedev-internal-aaaanq4tfq2enunuq2hun7a63a@hackclub.slack.com
-  storage s3 {
-    host "gateway.storjshare.io"
-    bucket "caddyserver-data"
-    access_id {env.STORJ_DCS_GATEWAY_ACCESS_ID}
-    secret_key {env.STORJ_DCS_GATEWAY_SECRET_KEY}
-    prefix "proxyparty-railway"
-  }
-  http_port 8000
-  https_port 8080
+	# Don't send us email over there! It's only used for cert related notifications
+	# on LENCR.
+	email recaptimedev-internal-aaaanq4tfq2enunuq2hun7a63a@hackclub.slack.com
+	storage s3 {
+		host "gateway.storjshare.io"
+		bucket "caddyserver-data"
+		access_id {env.STORJ_DCS_GATEWAY_ACCESS_ID}
+		secret_key {env.STORJ_DCS_GATEWAY_SECRET_KEY}
+		prefix "proxyparty-railway"
+	}
+	http_port 8000
+	https_port 8080
 }
 
 ### DO NOT TOUCH ANYTHING ABOVE THIS LINE ###
 
 http://proxypartylab.up.railway.app {
-  redir https://github.com/recaptime-dev/proxyparty-caddy
+	redir https://github.com/recaptime-dev/proxyparty-caddy
 }
 
 # Domain: hcdemo.dev
@@ -26,39 +25,113 @@ http://proxypartylab.up.railway.app {
 #              as a template for configuring redirects here.
 # Maintainers: ajhalili2006
 http://hcdemo.dev {
-  redir https://hackclub.com
+	redir https://hackclub.com
 }
 
 # Domain/s:    recaptime.dev, recaptime.eu.org
 # Description: Meta configs for recaptime-dev domains.
 # Maintainers: ajhalili2006
-http://proxyparty.recaptime.dev {
-  redir https://github.com/recaptime-dev/proxyparty-caddy
-  tls {
-    dns cloudflare {env.CF_BOT_TOKEN}
-    resolvers 1.1.1.1
-  }
+http://*.recaptime.dev {
+	tls {
+		dns cloudflare {env.CF_BOT_TOKEN}
+		resolvers 1.1.1.1
+	}
+
+	@proxyparty host proxyparty.recaptime.dev
+	handle @proxyparty {
+		redir https://github.com/recaptime-dev/proxyparty-caddy
+	}
+	@crew host crew.recaptime.dev
+	handle @crew {
+		redir https://wiki.recaptime.dev/domains/crew.recaptime.dev
+	}
+
+	# Fallback redirect for otherwise unhandled routes.
+	handle {
+		redir https://recaptime.dev
+	}
 }
-http://proxy-test.proxyparty.recaptime.dev {
-  reverse_proxy https://deno.com
-}
-http://crew.recaptime.dev http://crew.recaptime.eu.org {
-  redir https://wiki.recaptime.dev/domains/crew.recaptime.dev
-  tls {
-    dns cloudflare {env.CF_BOT_TOKEN}
-    resolvers 1.1.1.1
-  }
+
+http://*.recaptime.eu.org {
+	tls {
+		dns cloudflare {env.CF_BOT_TOKEN}
+		resolvers 1.1.1.1
+	}
+
+	@proxyparty host proxyparty.recaptime.eu.org
+	handle @proxyparty {
+		redir https://github.com/recaptime-dev/proxyparty-caddy
+	}
+	@crew host crew.recaptime.eu.org
+	handle @crew {
+		redir https://wiki.recaptime.dev/domains/crew.recaptime.dev
+	}
+
+	# Fallback redirect for otherwise unhandled routes.
+	handle {
+		redir https://recaptime.dev
+	}
 }
 
 # Domain/s:    andreijiroh.xyz
 # Maintainers: ajhalili2006
 http://*.andreijiroh.xyz {
-  @garden host http://garden.andreijiroh.xyz
-  handle @garden {
-    redir https://wiki.andreijiroh.xyz{uri}
-  }
-  @linkinbio host http://andreijiroh.xyz 
-  handle @linkinbio {
-    redir https://andreijiroh.xyz/links
-  }
+	tls {
+		dns cloudflare {env.CF_BOT_TOKEN}
+		resolvers 1.1.1.1
+	}
+
+	@gardenOld host garden.andreijiroh.xyz
+	handle @gardenOld {
+		redir https://wiki.andreijiroh.xyz{path}
+	}
+
+	@links host links.andreijiroh.xyz
+	handle @links {
+		redir https://andreijiroh.xyz/links
+	}
+
+	@releases host releases.andreijiroh.xyz
+	handle @releases {
+		redir https://packages.andreijiroh.xyz/releases{path}
+	}
+
+	@releasesCdn host releases.cdn.andreijiroh.xyz
+	handle @releasesCdn {
+		redir https://packages.andreijiroh.xyz/releases{path}
+	}
+	@ppa host ppa.cdn.andreijiroh.xyz
+	handle @ppa {
+		redir https://packages.andreijiroh.xyz{path}
+	}
+
+	handle {
+		redir https://andreijiroh.xyz
+	}
+}
+
+http://*.ajhalili2006.obl.ong {
+	@home host ajhalili2006.obl.ong
+	handle @home {
+		redir https://andreijiroh.xyz{path}
+	}
+
+	@gardenOld host garden.ajhalili2006.obl.ong
+	handle @gardenOld {
+		redir https://wiki.andreijiroh.xyz{path}
+	}
+
+	@wiki host wiki.ajhalili2006.obl.ong
+	handle @gardenOld {
+		redir https://wiki.andreijiroh.xyz{path}
+	}
+
+	@links host links.ajhalili2006.obl.ong
+	handle @links {
+		redir https://andreijiroh.xyz/links
+	}
+
+	handle {
+		redir https://andreijiroh.xyz
+	}
 }
