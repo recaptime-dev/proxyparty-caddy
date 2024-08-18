@@ -13,18 +13,11 @@ CADDY_CONFIG_HOME=${CADDY_CONFIG_HOME:-"/var/caddy/src"}
 
 cp "${CADDY_CONFIG_HOME}/config/sudo_caddy.conf" "/etc/sudoers.d/caddy"
 
-cp "${CADDY_CONFIG_HOME}/config/systemd/caddy-docker.service" "/etc/systemd/system/caddy-docker.service"
 cp "${CADDY_CONFIG_HOME}/config/systemd/caddy.service" "/etc/systemd/system/caddy.service"
 systemctl daemon-reload
 
 if [[ ${FF_ONLY_RELOAD_CONFIG} != "" ]]; then
-  echo "Enabling and disabing services are skipped for now"
+  systemctl reload caddy.service
 else
-  if [[ ${1} == "docker" ]]; then
-    systemctl disable caddy.service --now
-    systemctl enable caddy-docker.service --now
-  else
-    systemctl enable caddy.service --now
-    systemctl disable caddy-docker.service --now
-  fi
+  systemctl enable caddy.service --now
 fi

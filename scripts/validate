@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+set -e
+
+dotenvx decrypt -f .env.production --stdout > decrypted.env
+caddy validate --envfile decrypted.env --config config/caddy/gcp/Caddyfile
