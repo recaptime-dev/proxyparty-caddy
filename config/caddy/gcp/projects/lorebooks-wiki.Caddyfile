@@ -1,0 +1,26 @@
+# This is the Caddy configuration for lorebooks.wiki (and its related
+# domains)
+*.lorebooks.wiki, *.beta.lorebooks.wiki {
+	tls {
+		dns cloudflare {env.CF_BOT_TOKEN}
+		resolvers 1.1.1.1
+	}
+
+	@squad host squad.lorebooks.wiki
+	@ajhalili2006 host ajhalili2006.lorebooks.wiki
+	@proxyparty host proxyparty.lorebooks.wiki
+	@proxypartylab host proxypartylab.lorebooks.wiki
+
+	handle @squad {
+		redir https://wiki.recaptime.dev{path}
+	}
+	handle @ajhalili2006 {
+		redir https://wiki.andreijiroh.xyz{path}
+	}
+	handle @proxyparty {
+		redir https://github.com/recaptime-dev/proxyparty-caddy
+	}
+	handle @proxypartylab {
+		redir https://github.com/recaptime-dev/proxyparty-caddy
+	}
+}

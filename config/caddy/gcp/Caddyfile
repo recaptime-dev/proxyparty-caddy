@@ -1,0 +1,24 @@
+{
+	# Don't send us email over there! It's only used for cert related notifications
+	# on LENCR.
+	email recaptimedev-internal-aaaanq4tfq2enunuq2hun7a63a@hackclub.slack.com
+
+	# use Storj DCS for storing SSL keys via S3 API
+	storage s3 {
+		host "gateway.storjshare.io"
+		bucket "caddyserver-data"
+		access_id {env.STORJ_DCS_GATEWAY_ACCESS_ID}
+		secret_key {env.STORJ_DCS_GATEWAY_SECRET_KEY}
+		prefix "proxyparty"
+	}
+
+	admin :20241
+}
+
+# Load individual Caddyfiles via the import directive
+import "./projects/*.Caddyfile"
+import "./crew/*.Caddyfile"
+# Copy the thirdparty/template.Caddyfile and configure your own
+# redirects. That file should be formatted as your-username.Caddyfile
+# there and do the import similar to the line below.
+#import "./thirdparty/your-username.Caddyfile"

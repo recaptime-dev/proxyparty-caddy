@@ -1,0 +1,57 @@
+# This Caddyfile is managed for domains of ajhalili2006 (ajhalili2006@crew.recaptime.dev),
+# a squad member at Recap Time Squad.
+#
+# Related issues:
+# - https://github.com/recaptime-dev/proxyparty-caddy/issues/1
+# - https://github.com/andreijiroh-dev/personal-launchpad/issues/4
+
+*.andreijiroh.xyz {
+	tls {
+		dns cloudflare {env.CF_BOT_TOKEN}
+		resolvers 1.1.1.1
+	}
+
+	@gardenOld host garden.andreijiroh.xyz
+	handle @gardenOld {
+		redir https://wiki.andreijiroh.xyz{path}
+	}
+
+	@links host links.andreijiroh.xyz
+	handle @links {
+		redir https://andreijiroh.xyz/links
+	}
+
+	@releases host releases.andreijiroh.xyz
+	handle @releases {
+		redir https://packages.andreijiroh.xyz/releases{path}
+	}
+
+	@releasesCdn host releases.cdn.andreijiroh.xyz
+	handle @releasesCdn {
+		redir https://packages.andreijiroh.xyz/releases{path}
+	}
+	@ppa host ppa.cdn.andreijiroh.xyz
+	handle @ppa {
+		redir https://packages.andreijiroh.xyz{path}
+	}
+
+	handle {
+		redir https://andreijiroh.xyz
+	}
+}
+
+ajhalili2006.obl.ong {
+	redir https://andreijiroh.xyz{path}
+}
+
+garden.ajhalili2006.obl.ong {
+	redir https://wiki.andreijiroh.xyz{path}
+}
+
+wiki.ajhalili2006.obl.ong {
+	redir https://wiki.andreijiroh.xyz{path}
+}
+
+links.ajhalili2006.obl.ong {
+	redir https://andreijiroh.xyz/links
+}

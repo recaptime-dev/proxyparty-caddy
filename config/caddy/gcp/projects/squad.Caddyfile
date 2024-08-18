@@ -1,0 +1,56 @@
+*.recaptime.dev {
+	tls {
+		dns cloudflare {env.CF_BOT_TOKEN}
+		resolvers 1.1.1.1
+	}
+
+	@proxyparty host proxyparty.recaptime.dev
+	@proxypartylab host proxypartylab.recaptime.dev
+	@crew host crew.recaptime.dev
+
+	handle @proxyparty {
+		redir https://github.com/recaptime-dev/proxyparty-caddy
+	}
+	handle @proxypartylab {
+		redir https://github.com/recaptime-dev/proxyparty-caddy
+	}
+
+	handle @crew {
+		redir https://wiki.recaptime.dev/domains/crew.recaptime.dev
+	}
+
+	# Fallback redirect for otherwise unhandled routes.
+	handle {
+		redir https://recaptime.dev
+	}
+}
+
+*.recaptime.eu.org {
+	tls {
+		dns cloudflare {env.CF_BOT_TOKEN}
+		resolvers 1.1.1.1
+	}
+
+	@home host recaptime.dev
+	@proxyparty host proxyparty.recaptime.eu.org
+	@proxypartylab host proxypartylab.recaptime.eu.org
+	@wiki host wiki.recaptime.eu.org
+	@crew host crew.recaptime.eu.org
+	handle @home {
+		redir https://recaptime.dev{path}
+	}
+	handle @proxyparty {
+		redir https://github.com/recaptime-dev/proxyparty-caddy
+	}
+	handle @wiki {
+		redir https://wiki.recaptime.dev{path}
+	}
+	handle @crew {
+		redir https://wiki.recaptime.dev/domains/crew.recaptime.dev
+	}
+
+	# Fallback redirect for otherwise unhandled routes.
+	handle {
+		redir https://recaptime.dev
+	}
+}

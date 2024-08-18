@@ -1,0 +1,8 @@
+# This Caddyfile is managed for and on behalf of <username> (<email@domain.tld>).
+#
+# Related issues and merge requests:
+# - Link to issue or PR here.
+
+your.domain.tld {
+	redir https://another.domain2.tld{path}
+}
