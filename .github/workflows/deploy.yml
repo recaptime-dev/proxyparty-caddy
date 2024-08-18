@@ -44,4 +44,4 @@ jobs:
             FF_ONLY_RELOAD_CONFIG=1 /var/caddy/src/scripts/setup-server
           ssh -o "UserKnownHostsFile=/dev/null" -o "StrictHostKeyChecking=no" \
             caddy@proxypartylab-prod-gcp.tuna-skate.ts.net \
-            sudo systemctl reload-or-restart caddy.service
+            CADDY_ADMIN=localhost:20241 /var/caddy/src/scripts/update
