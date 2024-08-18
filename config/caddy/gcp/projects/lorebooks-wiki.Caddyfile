@@ -2,7 +2,7 @@
 # domains)
 *.lorebooks.wiki, *.beta.lorebooks.wiki {
 	tls {
-		dns cloudflare {env.CF_BOT_TOKEN}
+		dns cloudflare {$CF_BOT_TOKEN}
 		resolvers 1.1.1.1
 	}
 
@@ -22,5 +22,12 @@
 	}
 	handle @proxypartylab {
 		redir https://github.com/recaptime-dev/proxyparty-caddy
+	}
+
+	handle {
+		root * ./pages/parking.lorebooks.wiki
+		encode gzip
+		try_files {path} /index.html
+		file_server
 	}
 }

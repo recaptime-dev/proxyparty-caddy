@@ -7,8 +7,8 @@
 	storage s3 {
 		host "gateway.storjshare.io"
 		bucket "caddyserver-data"
-		access_id {env.STORJ_DCS_GATEWAY_ACCESS_ID}
-		secret_key {env.STORJ_DCS_GATEWAY_SECRET_KEY}
+		access_id {$STORJ_DCS_GATEWAY_ACCESS_ID}
+		secret_key {$STORJ_DCS_GATEWAY_SECRET_KEY}
 		prefix "proxyparty"
 	}
 

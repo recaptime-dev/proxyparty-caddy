@@ -1,0 +1,6 @@
+http://localhost:8000 {
+	root * ./pages/parking.lorebooks.wiki
+	encode gzip
+	try_files {path} /index.html
+	file_server
+}
