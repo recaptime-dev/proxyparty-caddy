@@ -1,9 +1,9 @@
 name: Request to add proxyparty to your (sub)domain
 description: >-
-  Use this form to request to add your (sub)domain into our Caddy configuration
-  and/or server/redirect-data.json file for our Deno Deploy-based
-  implementation.
-title: '[new-domain]: Request to add <domain here>'
+  Use this form to request to add your (sub)domain into our Caddy configuration. You can
+  also use this
+assignees: [ajhalili2006]
+title: '[<new-domain|update-config>]: Request to add/update config for <domain here>'
 body:
   - type: input
     id: domain
@@ -19,7 +19,9 @@ body:
     id: target
     attributes:
       label: Target URL
-      description: Where do we want to redirect or proxy that domain into?
+      description: >-
+        Where do we want to redirect or proxy that domain into? If you're redirecting
+        in bulk, please note them in the reason field below.
       placeholder: https://target-url.tld/owo
     validations:
       required: true
@@ -35,9 +37,15 @@ body:
         Your reason goes here, just replace this text with a real one.
 
         <!-- delete the text below this line, including this if not neeeded -->
+        **Additional (sub)domain redirect routes**:
+        - sub.domain.tld: https://target-url.tld/owo
+        - domain-two.tld: https://chaos.dev
+
         **Paths with target URL overrides**:
         - /path1: https://another-url.tld/todo
         - /path2: https://why.dev/chaos
+        - domain-two.tld/gtwscar: https://hermitcraft.com/scar
+        <!-- delete the text above this line, including this if not neeeded -->
     validations:
       required: true
   - type: checkboxes
@@ -45,7 +53,7 @@ body:
     attributes:
       label: Anything else?
       description: >-
-        If you tick the third checkbox, follow the instructions on the template
+        If you tick the third or fourth checkbox, follow the instructions on the template
         text above.
       options:
         - label: I need to proxy into the target URL instead of a simple redirect.
@@ -54,9 +62,10 @@ body:
           required: false
         - label: I need to redirect some paths to other target URLs.
           required: false
+        - label: I am redirecting/proxying more than one (sub)domain.
+          required: false
   - type: markdown
     attributes:
-      value: >-
+      value: |-
         ---
-        _This template was generated with [Issue Forms
-        Creator](https://issue-forms-creator.netlify.app)_
+        _This template was generated with [Issue Forms Creator](https://issue-forms-creator.netlify.app)_

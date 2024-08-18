@@ -1,0 +1,43 @@
+name: Request to remove domain configuration
+assignees: [ajhalili2006]
+description: >-
+  If you are moving from this service and do them on your own server or just
+  disabling redirects for some domains, use this form.
+title: '[disable-config] Request to disable config for <domain.tld>'
+body:
+  - type: markdown
+    attributes:
+      value: >-
+        If you are requesting to disable/remove configurations for more than one
+        (sub)domains, please create a separate issue for each one of them.
+        Please provide the reasoning why by commenting into the request ticket
+        after creation so we can review your request easily.
+  - type: input
+    id: domain
+    attributes:
+      label: Domain to be disabled/removed
+      description: >-
+        If it is a subdomain, please include both the subdomain and the base
+        domain. No protocols please.
+      placeholder: '[sub].domain.tld'
+    validations:
+      required: true
+  - type: dropdown
+    id: type
+    attributes:
+      label: >-
+        Do you want to just disable the configuration or remove it entirely for
+        your (sub)domain?
+      description: >-
+        If you want to remove the configuration entirely, make sure to remove
+        the DNS records pointing to `proxyparty.recaptime.dev` (either A/AAAA or
+        CNAME/ANAME records) after submitting this request.
+      options:
+        - Just disable the configuration
+        - Remove the configuration entirely
+    validations:
+      required: true
+  - type: markdown
+    attributes:
+      value: |-
+        This template was generated with [Issue Forms Creator](https://issue-forms-creator.netlify.app)
