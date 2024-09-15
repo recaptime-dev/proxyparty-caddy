@@ -17,7 +17,6 @@ Requires=network-online.target
 [Service]
 Type=notify
 User=caddy
-Group=caddy
 WorkingDirectory=/var/lib/caddy/src
 RuntimeDirectory=caddyserver
 ExecStart=/usr/local/bin/caddy run --environ --resume

@@ -44,7 +44,8 @@ For the OS image itself, we simply use Debian 12 without Nix.
 
 ## Tailscale SSH ACLs
 
-* @ajhalili2006 has admin access to both `root` and `caddy` users with 30m reauth (while its own account on no-reauth setup), alongside Admin API access.
+* @ajhalili2006 has admin access to both `root` and `caddy` users with 30m reauth
+(while its own account on no-reauth setup), alongside Admin API access.
 
 If you need access, please contact @ajhalili2006 via #recaptime-dev on Hack Club Slack
 or #access-requests in Recap Time Squad Zulip Cloud organization.
@@ -54,8 +55,9 @@ or #access-requests in Recap Time Squad Zulip Cloud organization.
 Feel free to adjust these commands as needed in your machine/container:
 
 ```bash
-sudo addgroup --system --gid 2500 caddy-admin
-sudo adduser --system --uid 2500 --ingroup caddy-admin --home /var/caddy --shell /bin/bash --comment caddy user caddy
+# /bin/bash as shell for CI deployments, since you probably don't want to SSh as root
+# if you use /sbin/nologin instead.
+sudo adduser --system --home /var/lib/caddy --shell /bin/bash --comment "caddy user" caddy
 ```
 
 ## systemd service unit files
@@ -78,4 +80,3 @@ for the private keys to decrypt secrets.
 
 [`#recaptime-dev:hackclub.slack.com`]: https://hackclub.slack.com/archives/C07H1R2PW9W
 [access requests issue tracker]: https://go.recaptime.dev/new-issue/access-requests
-
