@@ -20,7 +20,7 @@ User=caddy
 Group=caddy
 WorkingDirectory=/var/lib/caddy/src
 RuntimeDirectory=caddyserver
-ExecStart=/usr/local/bin/caddy run --envfile ./decrypted.env --environ --resume
+ExecStart=/usr/local/bin/caddy run --environ --resume
 ExecReload=CADDY_ADMIN=localhost:20241 /var/lib/caddy/src/scripts/apply
 TimeoutStopSec=5s
 LimitNOFILE=1048576

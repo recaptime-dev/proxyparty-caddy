@@ -11,12 +11,12 @@ fi
 set -xe
 CADDY_CONFIG_HOME=${CADDY_CONFIG_HOME:-"/var/lib/caddy/src"}
 
+# Copy configurations and then reload systemd
 cp "${CADDY_CONFIG_HOME}/config/sudo_caddy.conf" "/etc/sudoers.d/caddy"
-
 cp "${CADDY_CONFIG_HOME}/config/systemd/caddy.service" "/etc/systemd/system/caddy.service"
 systemctl daemon-reload
 
-if [[ "$(command -v caddy)" == "/usr/local/bin/caddy" ]]; then
+if [[ -f /usr/local/bin/caddy ]]; then
   caddy upgrade
 else
   if ! command -v caddy >> /dev/null; then
@@ -26,13 +26,10 @@ else
     ln -s "$(command -v caddy)" /usr/local/bin/caddy
   fi
 fi
+curl -fsS https://dotenvx.sh | sh
 
-if [[ ${FF_ONLY_RELOAD_CONFIG} != "" ]]; then
-  exit 0
+if [[ -L "/etc/systemd/system/multi-user.target.wants/caddy.service" ]]; then
+  systemctl restart caddy.service
 else
-  if [[ -L "/etc/systemd/system/multi-user.target.wants/caddy.service" ]]; then
-    systemctl restart caddy.service
-  else
-    systemctl enable caddy.service --now
-  fi
+  systemctl enable caddy.service --now
 fi
