@@ -40,18 +40,56 @@
 	}
 }
 
+*.andreijiroh.dev {
+	tls {
+		dns cloudflare {$CF_BOT_TOKEN}
+		resolvers 1.1.1.1
+	}
+
+	@gardenOld host garden.andreijiroh.dev
+	handle @gardenOld {
+		redir https://wiki.andreijiroh.dev{path}
+	}
+
+	@links host links.andreijiroh.dev
+	handle @links {
+		redir https://andreijiroh.dev/links
+	}
+
+	@releases host releases.andreijiroh.dev
+	handle @releases {
+		redir https://packages.andreijiroh.dev/releases{path}
+	}
+
+	@releasesCdn host releases.cdn.andreijiroh.dev
+	handle @releasesCdn {
+		redir https://packages.andreijiroh.dev/releases{path}
+	}
+	@ppa host ppa.cdn.andreijiroh.dev
+	handle @ppa {
+		redir https://packages.andreijiroh.dev{path}
+	}
+
+	handle {
+		redir https://andreijiroh.dev
+	}
+}
+
+# Obl.ong
 ajhalili2006.obl.ong {
 	redir https://andreijiroh.xyz{path}
 }
-
 garden.ajhalili2006.obl.ong {
 	redir https://wiki.andreijiroh.xyz{path}
 }
-
 wiki.ajhalili2006.obl.ong {
 	redir https://wiki.andreijiroh.xyz{path}
 }
-
 links.ajhalili2006.obl.ong {
 	redir https://andreijiroh.xyz/links
+}
+
+# dino.icu
+andreijiroh.dino.icu ajhalili2006.dino.icu {
+	redir https://andreijiroh.dev{path}
 }
