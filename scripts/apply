@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e
 CONFIG_PATH=${CONFIG_PATH:-"./config/caddy/gcp/Caddyfile"}
-CADDY_ADMIN=${CADDY_ADMIN:-"100.109.34.86:20241"}
+CADDY_ADMIN=${CADDY_ADMIN:-"100.125.197.28:20241"}
 
 dotenvx run -f .env.production -- caddy reload \
   --config "${CONFIG_PATH}" \

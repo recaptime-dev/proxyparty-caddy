@@ -17,17 +17,16 @@ Requires=network-online.target
 [Service]
 Type=notify
 User=caddy
-Group=caddy-admin
-WorkingDirectory=/var/caddy/src
+Group=caddy
+WorkingDirectory=/var/lib/caddy/src
 RuntimeDirectory=caddyserver
-ExecStart=caddy run --envfile ./decrypted.env --environ --resume
-ExecReload=caddy reload --config ./config/caddy/gcp/Caddyfile
+ExecStart=/usr/local/bin/caddy run --envfile ./decrypted.env --environ --resume
+ExecReload=CADDY_ADMIN=localhost:20241 /var/lib/caddy/src/scripts/apply
 TimeoutStopSec=5s
 LimitNOFILE=1048576
 PrivateTmp=true
 ProtectSystem=full
 AmbientCapabilities=CAP_NET_ADMIN CAP_NET_BIND_SERVICE
-EnvironmentFile=/var/caddy/src/decrypted.env
 
 [Install]
 WantedBy=multi-user.target

@@ -9,15 +9,30 @@ if [ $EUID != "0" ]; then
 fi
 
 set -xe
-CADDY_CONFIG_HOME=${CADDY_CONFIG_HOME:-"/var/caddy/src"}
+CADDY_CONFIG_HOME=${CADDY_CONFIG_HOME:-"/var/lib/caddy/src"}
 
 cp "${CADDY_CONFIG_HOME}/config/sudo_caddy.conf" "/etc/sudoers.d/caddy"
 
 cp "${CADDY_CONFIG_HOME}/config/systemd/caddy.service" "/etc/systemd/system/caddy.service"
 systemctl daemon-reload
 
-if [[ ${FF_ONLY_RELOAD_CONFIG} != "" ]]; then
-  systemctl reload caddy.service
+if [[ "$(command -v caddy)" == "/usr/local/bin/caddy" ]]; then
+  caddy upgrade
 else
-  systemctl enable caddy.service --now
+  if ! command -v caddy >> /dev/null; then
+    wget "https://packages.recaptime.dev/deployment-binaries/custom-builds/caddy-v2.8.4/caddy" -O /usr/local/bin/caddy
+    chmod +x /usr/local/bin/caddy
+  else
+    ln -s "$(command -v caddy)" /usr/local/bin/caddy
+  fi
+fi
+
+if [[ ${FF_ONLY_RELOAD_CONFIG} != "" ]]; then
+  exit 0
+else
+  if [[ -L "/etc/systemd/system/multi-user.target.wants/caddy.service" ]]; then
+    systemctl restart caddy.service
+  else
+    systemctl enable caddy.service --now
+  fi
 fi
