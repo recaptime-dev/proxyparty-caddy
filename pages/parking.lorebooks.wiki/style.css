@@ -1,9 +1,8 @@
 body {
-  max-width: 800px;
   background-color: #343434;
   margin: 0;
-  font: 11pt monospace;
   padding: 0;
+  font: 11pt monospace;
 }
 
 .freeze {
@@ -15,7 +14,7 @@ div {
   justify-content: center;
   align-items: center;
   width: 100vw;
-  height: 75vh;
+  height: 100vh;
   flex-direction: column;
 }
 
@@ -26,7 +25,7 @@ h1,code,p {
 
 code {
   display: flex;
-  gap: 10px;
+  gap: 20px;
   background-color: #1E1E1E;
   color: #00FF00;
   padding: 0.5rem;
