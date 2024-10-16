@@ -1,33 +1,70 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 // README at: https://github.com/devcontainers/templates/tree/main/src/docker-in-docker
 {
-	"name": "Docker in Docker",
+	"name": "Docker in Docker - proxyparty",
 	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
 	"build": {
 		"dockerfile": "./devcontainer.Dockerfile"
 	},
 
 	"features": {
-		"ghcr.io/devcontainers/features/docker-in-docker:2": {
-			"version": "latest",
-			"enableNonRootDocker": "true",
-			"moby": "false"
-		},
-		"ghcr.io/devcontainers/features/go:1": {},
-		"ghcr.io/devcontainers-contrib/features/caddy:1": {},
+		"ghcr.io/devcontainers/features/docker-in-docker:2": {},
 		"ghcr.io/joshuanianji/devcontainer-features/gcloud-cli-persistence:1": {},
-		"ghcr.io/bartventer/arch-devcontainer-features/gcloud-cli:1": {}
-	}
-
-	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	// "forwardPorts": [],
-
-	// Use 'postCreateCommand' to run commands after the container is created.
-	// "postCreateCommand": "docker --version",
+		"ghcr.io/devcontainers/features/github-cli:1": {},
+		"ghcr.io/devcontainers/features/node:1": {},
+		"ghcr.io/joshuanianji/devcontainer-features/github-cli-persistence:1": {},
+		"ghcr.io/prulloac/devcontainer-features/deno:1": {},
+		"ghcr.io/dhoeric/features/google-cloud-cli:1": {}
+	},
 
 	// Configure tool-specific properties.
-	// "customizations": {},
-
-	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
-	// "remoteUser": "root"
+	"customizations": {
+		"vscode": {
+			"settings": {
+				"git.alwaysSignOff": true
+			},
+			"extensions": [
+				"matthewpi.caddyfile-support",
+				"zamerick.vscode-caddyfile-syntax",
+				"hangxingliu.vscode-systemd-support",
+				"coolbear.systemd-unit-file"
+			]
+		},
+		"codespaces": {
+			"repositories": {
+				"recaptime-dev/proxyparty-caddy": {
+					"permissions": {
+						"actions": "write",
+						"workflows": "write",
+						"contents": "write",
+						"checks": "read",
+						"deployments": "read",
+						"statuses": "read",
+						"issues": "write",
+						"pull_requests": "write",
+						"packages": "write",
+						"repository_projects": "write"
+					}
+				},
+				"recaptime-dev/infraops": {
+					"permissions": {
+						"issues": "write",
+						"contents": "read",
+						"packages": "write",
+						"repository_projects": "write"
+					}
+				},
+				"hackclub/dns": {
+					"permissions": {
+						"issues": "write",
+						"contents": "read",
+						"pull_requests": "read",
+						"statuses": "read",
+						"checks": "read",
+						"actions": "read"
+					}
+				}
+			}
+		}
+	}
 }

@@ -10,7 +10,11 @@ or share your spare compute credits (or donate directly) on
 [his Railway profile](https://railway.app/u/ajhalili2006) if you like to
 keep this maintained and support his open-source work.
 
-## Setup / Self-host
+## Using the service
+
+TBD
+
+## Self-hosting
 
 See `SETUP.md` for a more detailed document about our setup and to help you
 self-host them for your own configuration.

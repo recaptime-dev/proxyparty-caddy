@@ -1,6 +1,13 @@
-FROM mcr.microsoft.com/devcontainers/base:bookworm
+FROM golang:bookworm as xcaddy-buildkit
 
-USER root
+RUN go install github.com/caddyserver/xcaddy/cmd/xcaddy@latest \
+    && /go/bin/xcaddy build \
+      --with github.com/caddy-dns/cloudflare \
+      --with github.com/caddy-dns/vercel \
+      --with github.com/caddy-dns/netlify \
+      --with github.com/ss098/certmagic-s3 \
+      --output /go/bin/caddy
 
-RUN wget https://github.com/caddyserver/xcaddy/releases/download/v0.4.2/xcaddy_0.4.2_linux_amd64.deb \
-    -O /tmp/xcaddy.deb && apt install xcaddy --yes
+FROM mcr.microsoft.com/devcontainers/base:bookworm as base
+
+COPY --from=xcaddy-buildkit /go/bin/caddy /usr/local/bin/caddy
