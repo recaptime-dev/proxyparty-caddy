@@ -12,7 +12,7 @@ jobs:
   #    name: production
   #    url: https://proxypartylab.up.railway.app
   #  steps:
-  #    - uses: actions/checkout@v4
+  #    - uses: actions/checkout@v6
   #    - run: echo TODO
   proxypartylab-prod-gcp:
     name: Dedicated Caddy server on GCP Compute Engine
@@ -21,7 +21,7 @@ jobs:
       name: production
       url: https://proxyparty.recaptime.dev
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Load secrets via dotenvx
         id: dotenvx
         uses: andreijiroh-dev/dotenvx-action@main
