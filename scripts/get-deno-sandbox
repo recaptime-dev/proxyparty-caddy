@@ -1,0 +1,13 @@
+#!/usr/bin/env -S deno run -A
+
+import { Sandbox } from "jsr:@deno/sandbox";
+
+await using sandbox = await Sandbox.create({ memoryMb: 4096 });
+
+// Get SSH credentials and VS Code remote URL
+const { hostname, username } = await sandbox.exposeSsh();
+const vscode = await sandbox.vscode();
+console.log(`Sandbox created. SSH with: ssh ${username}@${hostname}`);
+console.log(`VSCode Remote URL: ${vscode.url}`);
+
+await vscode.status;

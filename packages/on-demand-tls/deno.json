@@ -1,0 +1,24 @@
+{
+  "imports": {
+    "@gitbeaker/rest": "https://esm.sh/@gitbeaker/rest@43.8.0?dts",
+    "@hono/standard-validator": "npm:@hono/standard-validator@^0.2.1",
+    "@hono/swagger-ui": "npm:@hono/swagger-ui@^0.5.2",
+    "@hono/zod-openapi": "npm:@hono/zod-openapi@^1.2.0",
+    "hono": "jsr:@hono/hono@^4.11.1",
+    "hono-openapi": "npm:hono-openapi@^1.1.2",
+    "parse-domain": "npm:parse-domain@^8.2.2"
+  },
+  "tasks": {
+    "start": "deno run --allow-net --allow-env --unstable-kv main.ts",
+    "dev": "deno run --allow-net --allow-env --watch --unstable-kv main.ts",
+    "devtunnel": "deno run --allow-net --allow-env --watch --tunnel --unstable-kv main.ts"
+  },
+  "compilerOptions": {
+    "jsx": "precompile",
+    "jsxImportSource": "hono/jsx"
+  },
+  "deploy": {
+    "org": "recaptime-dev",
+    "app": "proxyparty-caddy-tlsauth"
+  }
+}
