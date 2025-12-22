@@ -36,7 +36,7 @@ jobs:
         uses: docker/login-action@v2
         with:
           registry: registry.gitlab.com
-          username: ${{ secrets.RTDEVBOT_GITLAB_REGISTRY_USERNAME }}
+          username: ${{ secrets.RTDEVBOT_GITLAB_SERVICE_ACCOUNT }}
           password: ${{ secrets.RTDEVBOT_GITLAB_REGISTRY_TOKEN }}
 
       - name: Generate metadata for Docker images
@@ -67,7 +67,8 @@ jobs:
           platforms: linux/amd64,linux/arm64
 
   production-azure:
-    name: Dedicated Caddy server on GCP Compute Engine
+    name: Dedicated Caddy server on Azure VM
+    needs: [docker-builds]
     runs-on: ubuntu-latest
     environment:
       name: production
