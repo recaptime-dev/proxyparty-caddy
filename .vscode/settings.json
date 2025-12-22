@@ -1,7 +1,8 @@
 {
     "deno.enable": true,
     "deno.enablePaths": [
-        "./server"
+        "./packages/on-demand-tls",
+        "./scripts"
     ],
     "editor.inlayHints.enabled": "off",
     "files.associations": {
