@@ -1,63 +1,56 @@
-# Docker-based deployments
+# Docker-based builds + deployments
 
-## Using our instance
+## Plugins used in the setup
 
-### The Railway way
+Here are the following Caddy plugins that we use for running our proxyparty instance.
 
-If you don't want to send a patch on our config, you can file a new issue
-stating your request to proxy or redirect something to somewhere else on the
-internet.
+* `github.com/caddy-dns/cloudflare` - Cloudflare DNS provider for DNS TXT record challenges
+* `github.com/caddy-dns/desec` - deSEC DNS provider for DNS TXT record challenges
+* `github.com/ss098/certmagic-s3` - S3 storage backend for [Certmagic](github.com/caddyserver/certmagic)
 
-Once we added your domain for redirection and its redirect or proxy options,
-we configure custom domain setup in the Railway dashboard. If you do use wildcard domains,
-make sure to disable Cloudflare Universal SSL (and subscribe to Advanced SSL or disable
-Cloudflare proxy for orange-proxied sites to avoid TLS errors)
-before overriding `_acme-challenge.<your-domain.tld>` with a CNAME pointing to a
-`challenge.railwaydns.net` subdomain. Also, you may need to either duplicate the service or
-upgrade to Pro to use more than two domains per service[^1] if you self-host your
-configuration instead.
+If you want to add a new plugin, just send us a merge request (or file a issue first if you prefer)
+and we'll look onto it. Unmaintained plugins over 2+ years may be removed unless otherwise specified.
 
-[^1]: See <https://docs.railway.app/reference/public-networking#custom-domain-count-limits> for context.
-By default, you can add up to 10 domains per service but contact Railway team if you need more.
+## Local development
 
-### Via GCP Compute Engine
+> [!NOTE]
+> Requires Docker Engine (or Docker Desktop) installed for local builds. If you do
+> remote builds via `docker context`/`DOCKER_CONTEXT` or `DOCKER_HOST`, the usual
+> Docker CLI should be enough.
+>
+> If you prefer not to use Docker, make sure to install Go 1.23+ and
+> [`xcaddy`](https://github.com/caddyserver/xcaddy) installed on your machine.
 
-```
-
-```
-
-## Self-host
-
-You can self-host this via the Railway template using the link below and add
-your API keys as needed (mainly for data storage via Cloudflare R2 over S3 API
-and API calls for TXT DNS challenges during certificate issuances).
-
-[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/template/PqHfEF?referralCode=ajhalili2006)
-
-**Sponsorship notice**: By using the button below and paying for your first
-bill or buying compute credits, Andrei Jiroh will receive 5 USD in compute
-credits on Railway. [Learn more about how referrals work](https://docs.railway.app/reference/accounts#referrals).
-
-Alternatively you can build your own image using the following command:
+We included a convenience script at our [`package.json`](../package.json) through
+`pnpm run build` so you can use our Caddy setup for linting and formatting configs here.
 
 ```bash
-docker build -f docker/Dockerfile -t ghcr.io/recaptime-dev/proxyparty-caddy:localdev .
+# Build the image with BuildKit (cue DOCKER_BUILDKIT variable there)
+DOCKER_BUILDKIT=1 docker build -f docker/localdev.Dockerfile -t ghcr.io/proxyparty-caddy/localdev .
+
+# then export the built binary in one go
+docker run --rm -it -v $PWD/scripts:/out ghcr.io/proxyparty-caddy/localdev
 ```
 
-Run it on your server (adjust ports as needed):
+For the curious why we mount the `scripts` directory to the `/out` in-container directory,
+look no further at the `CMD` section of the local development Dockerfile.
 
-```bash
-docker run --rm -p 80:8000 -p 443:8080 \
---cap-add CAP_NET_BIND_SERVICE \
-  -v ./config/caddy/meta.Caddyfile:/etc/caddy/Caddyfile \
-  -v caddy_data:/data \
-  ghcr.io/recaptime-dev/proxyparty-caddy:localdev
+```Dockerfile
+# This is where the magic goes
+ENTRYPOINT [ "/bin/cp" ]
+CMD [ "/usr/bin/caddy", "/out/caddy" ]
 ```
 
-To reload the server as you update configs:
+### Dockerless builds
+
+Assuming you have `xcaddy` and Go installed, run the following:
 
 ```bash
-# from its Docker Hub container image README: https://hub.docker.com/_/caddy
-caddy_container_id=$(docker ps | grep caddy | awk '{print $1;}')
-docker exec -w /etc/caddy $caddy_container_id caddy reload
+# Note to reader: To build against a specific commit or version
+# set CADDY_VERSION into that commit hash/version you need
+# instead of `latest`.
+xcaddy build ${CADDY_VERSION:-"latest"} \
+    --with github.com/caddy-dns/cloudflare \
+    --with github.com/caddy-dns/desec \
+    --with github.com/ss098/certmagic-s3
 ```
