@@ -1,0 +1,76 @@
+{
+	# This email address is used only for TLS certificate issuance,
+	# please do not send support requests there.
+	email proxyparty-support@lorebooks.wiki
+
+	storage s3 {
+		host {$CF_R2_ACCOUNT_ENDPOINT}
+		bucket {$CF_R2_BUCKET}
+		prefix {$CF_R2_PREFIX:"production/proxyparty"}
+		access_id {$CF_R2_ACCESS_KEY}
+		secret_key {$CF_R2_ACCESS_SECRET}
+	}
+
+	on_demand_tls {
+		ask {$ONDEMAND_TLS_ENDPOINT}
+	}
+}
+
+(globals) {
+	header {
+		Server "proxyparty.recaptime.dev (Caddy)"
+		X-Powered-By "proxyparty.recaptime.dev (Caddy)"
+	}
+}
+
+# To enable Cloudflare DNS-01 challenge for TLS certificates on your Cloudflare zone,
+# make sure to invite our bot account (infraops@bots.recaptime.dev) to your Cloudflare
+# account with DNS edit permissions, preferably limited to only the zones you want to use
+# with proxyparty. If you do send a invite, please let us know so we can accept it.
+(cf_dns01_challenge) {
+	tls {
+		dns cloudflare {$CF_BOT_TOKEN}
+		resolvers 1.1.1.1 1.0.0.1
+	}
+}
+
+http://localhost:4208 {
+	import globals
+
+	handle {
+		root * ./pages/parking.lorebooks.wiki
+		encode gzip
+		try_files {path} /index.html
+		file_server
+	}
+}
+
+## RecapTime.dev project domains - START ##
+*.lorebooks.wiki, *.beta.lorebooks.wiki, *.lorebooks.eu.org, *.beta.lorebooks.eu.org {
+	import globals cf_dns01_challenge
+
+	handle {
+		root * ./pages/parking.lorebooks.wiki
+		encode gzip
+		try_files {path} /index.html
+		file_server
+	}
+}
+
+*.stellapent.wiki {
+	import globals cf_dns01_challenge
+
+	handle {
+		root * ./pages/parking.lorebooks.wiki
+		encode gzip
+		try_files {path} /index.html
+		file_server
+	}
+}
+
+*.recaptime.dev, *.recaptime.eu.org {
+	import globals cf_dns01_challenge
+
+	redir https://recaptime.dev
+}
+## RecapTime.dev project domains - END ##
