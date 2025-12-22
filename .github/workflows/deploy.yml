@@ -4,6 +4,11 @@ on:
     branches: [main]
   workflow_dispatch:
 
+permissions:
+  id-token: write # This is required for the tailscale action to request a JWT from GitHub
+  packages: write
+  contents: read
+
 jobs:
   #proxypartylab-prod-railwayapp:
   #  name: Production Caddy server on railway.app
@@ -14,7 +19,48 @@ jobs:
   #  steps:
   #    - uses: actions/checkout@v4
   #    - run: echo TODO
-  proxypartylab-prod-gcp:
+  docker-builds:
+    name: Build and push Docker images
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Log in to GitLab Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: registry.gitlab.com
+          username: ${{ secrets.RTDEVBOT_GITLAB_REGISTRY_USERNAME }}
+          password: ${{ secrets.RTDEVBOT_GITLAB_REGISTRY_TOKEN }}
+
+      - name: Generate metadata for Docker images
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: |
+            ghcr.io/recaptime-dev/infra/proxyparty-caddy
+            registry.gitlab.com/recaptime-dev/infra/proxyparty-caddy
+          tags: |
+            type=ref,event=branch,prefix=branch-
+            type=sha,format=long,prefix=commit-
+
+      - name: Build and push proxyparty-caddy image
+        id: proxyparty-caddy-image
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./docker/Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+  production-azure:
     name: Dedicated Caddy server on GCP Compute Engine
     runs-on: ubuntu-latest
     environment:
@@ -22,26 +68,14 @@ jobs:
       url: https://proxyparty.recaptime.dev
     steps:
       - uses: actions/checkout@v4
-      - name: Load secrets via dotenvx
-        id: dotenvx
-        uses: andreijiroh-dev/dotenvx-action@main
+
+      - name: Setup Tailscale (using OIDC workload federation)
+        uses: tailscale/github-action@v4
         with:
-          key: ${{ secrets.DOTENV_PRIVATE_KEY_CI }}
-          path: .env.ci
-      - name: Setup Tailscale authenication
-        run: |
-          curl -fsSL https://tailscale.com/install.sh | bash -
-          sudo tailscale up --auth-key="${TAILSCALE_OAUTH_CLIENT_SECRET}?ephemeral=true&preauthorized=true" --advertise-tags=tag:github-actions,tag:ci-builds,tag:dev
-        env:
-          TAILSCALE_OAUTH_CLIENT_SECRET: ${{ steps.dotenvx.outputs.TAILSCALE_OAUTH_CLIENT_SECRET }}
+          oauth-client-id: TysnXTahJ911CNTRL-knEDkFDtWs11CNTRL
+          audience: api.tailscale.com/TysnXTahJ911CNTRL-knEDkFDtWs11CNTRL
+          tags: tag:ci
+
       - name: Deploy updates to server
         run: |
-          ssh -o "UserKnownHostsFile=/dev/null" -o "StrictHostKeyChecking=no" \
-            caddy@proxyparty.tuna-skate.ts.net \
-            git -C /var/lib/caddy/src pull --ff-only
-          ssh -o "UserKnownHostsFile=/dev/null" -o "StrictHostKeyChecking=no" \
-            root@proxyparty.tuna-skate.ts.net \
-            /var/lib/caddy/src/scripts/setup-server
-          ssh -o "UserKnownHostsFile=/dev/null" -o "StrictHostKeyChecking=no" \
-            caddy@proxyparty.tuna-skate.ts.net \
-            CADDY_ADMIN=localhost:20241 /var/lib/caddy/src/scripts/apply
+          echo "Not yet ready btw"

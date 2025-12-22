@@ -1,9 +1,9 @@
 name: Request to add proxyparty to your (sub)domain
 description: >-
   Use this form to request to add your (sub)domain into our Caddy configuration. You can
-  also use this
+  also use this to update your configuration if you prefer not to send patches.
 assignees: [ajhalili2006]
-title: '[<new-domain|update-config>]: Request to add/update config for <domain here>'
+title: "[<new-domain|update-config>]: Request to add/update config for <domain here>"
 body:
   - type: input
     id: domain
@@ -12,7 +12,7 @@ body:
       description: >-
         If it is a subdomain, please include both the subdomain and the base
         domain. No protocols please.
-      placeholder: '[sub].domain.tld'
+      placeholder: "[sub].domain.tld"
     validations:
       required: true
   - type: input
@@ -21,7 +21,8 @@ body:
       label: Target URL
       description: >-
         Where do we want to redirect or proxy that domain into? If you're redirecting
-        in bulk, please note them in the reason field below.
+        in bulk, please note them in the reason field below. If you're not changing the
+        redirects, please type `Not Applicable`.
       placeholder: https://target-url.tld/owo
     validations:
       required: true
