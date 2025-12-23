@@ -3,11 +3,11 @@ services:
     image: ${PROXYPARTY_CADDY_IMAGE:-ghcr.io/recaptime-dev/proxyparty-caddy/caddy-builds:latest}
     expose:
       # HTTP/HTTPS ports
-      - 80:80
-      - 443:443
+      - "80:80"
+      - "443:443"
       # Admin API endpoints, only exposed over localhost for security reasons
-      - localhost:20241:20241
-      - localhost:2019:20241
+      - "localhost:20241:20241"
+      - "localhost:2019:20241"
     volumes:
       - ./config/caddy:/etc/caddy
       - ./pages:/var/lib/caddy/pages
