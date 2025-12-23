@@ -1,7 +1,12 @@
 name: Deployments
 on:
   push:
-    branches: [main]
+    branches: ["*"]
+    paths:
+      - config/caddy/*
+      - docker/Dockerfile
+      - scripts/*
+      - .github/workflows/deploy.yml
   workflow_dispatch:
 
 permissions:
@@ -69,9 +74,10 @@ jobs:
           platforms: linux/amd64,linux/arm64
 
   production-azure:
-    name: Dedicated Caddy server on Azure VM
+    name: Production - Dedicated Caddy server on Azure VM
     needs: [docker-builds]
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
     environment:
       name: production
       url: https://proxyparty.recaptime.dev
