@@ -1,0 +1,11 @@
+services:
+  caddy:
+    image: ${PROXYPARTY_CADDY_IMAGE:-"ghcr.io/recaptime-dev/proxyparty-caddy/caddy-builds:latest"}
+    expose:
+      - 80:80
+      - 443:443
+      - 2019:2019
+    volumes:
+      - ./config/caddy:/etc/caddy
+      - ./pages:/var/lib/caddy/pages
+    restart: always

@@ -14,6 +14,8 @@
 	on_demand_tls {
 		ask {$ONDEMAND_TLS_ENDPOINT}
 	}
+
+	admin :20241
 }
 
 (globals) {
