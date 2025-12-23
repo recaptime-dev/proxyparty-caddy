@@ -1,7 +1,7 @@
 services:
   caddy:
     image: ${PROXYPARTY_CADDY_IMAGE:-ghcr.io/recaptime-dev/proxyparty-caddy/caddy-builds:latest}
-    expose:
+    ports:
       # HTTP/HTTPS ports
       - "80:80"
       - "443:443"
