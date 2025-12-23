@@ -1,10 +1,11 @@
 {
-	"scripts": {
-		"build": "DOCKER_BUILDKIT=1 docker build -f 'docker/localdev.Dockerfile' -t 'ghcr.io/proxyparty-caddy/localdev' --build-arg 'CADDY_VERSION=latest' . && docker run --rm -it -v $PWD/bin:/out ghcr.io/proxyparty-caddy/localdev",
-		"set-secret": "pnpm run set-secret:prod",
-		"set-secret:prod": "dotenvx set -f .env.production --"
-	},
-	"devDependencies": {
-		"@dotenvx/dotenvx": "^1.51.2"
-	}
+  "scripts": {
+    "build": "DOCKER_BUILDKIT=1 docker build -f 'docker/localdev.Dockerfile' -t 'ghcr.io/proxyparty-caddy/localdev' --build-arg 'CADDY_VERSION=latest' . && docker run --rm -it -v $PWD/bin:/out ghcr.io/proxyparty-caddy/localdev",
+    "set-secret": "pnpm run set-secret:prod",
+    "set-secret:prod": "dotenvx set -f .env.production --",
+    "decrypt:prod": "dotenvx decrypt -f .env.production --stdout -ek PROXYPARTY_ADMIN_TOKEN > .env.production.decrypted"
+  },
+  "devDependencies": {
+    "@dotenvx/dotenvx": "^1.51.2"
+  }
 }
