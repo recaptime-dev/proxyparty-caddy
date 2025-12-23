@@ -6,7 +6,7 @@ on:
 
 permissions:
   id-token: write # This is required for the tailscale action to request a JWT from GitHub
-  packages: write
+  packages: write # Also required for pushing Docker images on GHCR
   contents: read
 
 jobs:
@@ -45,7 +45,7 @@ jobs:
         with:
           images: |
             ghcr.io/recaptime-dev/proxyparty-caddy/caddy-builds
-            registry.gitlab.com/recaptime-dev/proxyparty-caddy/caddy-builds
+            registry.gitlab.com/recaptime-dev/infra/proxyparty-caddy/caddy-builds
           tags: |
             type=ref,event=branch,prefix=branch-
             type=sha,format=long,prefix=commit-
@@ -85,4 +85,4 @@ jobs:
 
       - name: Deploy updates to server
         run: |
-          echo "Not yet ready btw"
+          ssh caddy@proxyparty-caddy-production.tuna-skate.ts.net "/var/lib/caddy/src/scripts/deploy-updates"
