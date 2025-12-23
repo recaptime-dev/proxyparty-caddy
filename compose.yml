@@ -6,8 +6,8 @@ services:
       - "80:80"
       - "443:443"
       # Admin API endpoints, only exposed over localhost for security reasons
-      - "localhost:20241:20241"
-      - "localhost:2019:20241"
+      - "127.0.0.1:20241:20241"
+      - "127.0.0.1:2019:20241"
     volumes:
       - ./config/caddy:/etc/caddy
       - ./pages:/var/lib/caddy/pages
