@@ -1,5 +1,31 @@
 # Docker-based builds + deployments
 
+## Usage
+
+You can use our built Docker images from either [GitHub Container Registry](https://github.com/orgs/recaptime-dev/packages/container/package/proxyparty-caddy)
+or [GitLab Container Registry](https://gitlab.com/recaptime-dev/infra/proxyparty-caddy) at GitLab SaaS.
+
+```bash
+docker run -d --name proxyparty-caddy \
+  -v ./config/caddy:/etc/caddy \
+  -p 80:80 \
+  -p 443:443 \
+  -p 4208:4208 \
+  registry.gitlab.com/recaptime-dev/infra/proxyparty-caddy/caddy-builds:latest
+```
+
+Alternatively, you can also extract our custom Caddy binary from the Docker image
+instead of running `pnpm run build` (which will build using [`localdev.Dockerfile`](localdev.Dockerfile)
+and simply copying it to `bin` directory mounted at `/out` inside the container).
+
+```bash
+docker run -it --rm \
+  -v $(pwd)/bin:/out \
+  --entrypoint /bin/cp \
+  registry.gitlab.com/recaptime-dev/infra/proxyparty-caddy/caddy-builds:latest \
+  /usr/bin/caddy /out/caddy
+```
+
 ## Plugins used in the setup
 
 Here are the following Caddy plugins that we use for running our proxyparty instance.
