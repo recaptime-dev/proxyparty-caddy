@@ -47,6 +47,22 @@ http://localhost:4208 {
 	}
 }
 
+# By default, we serve the parking page for all domains that are not explicitly handled.
+# To prevent abuse, we have an API service that checks if the domain is registered with
+# us before doing the TLS certificate issue request behind the scenes.
+https:// {
+  tls {
+    on_demand
+  }
+
+  handle {
+		root * ./pages/parking.lorebooks.wiki
+		encode gzip
+		try_files {path} /index.html
+		file_server
+	}
+}
+
 ## RecapTime.dev project domains - START ##
 *.lorebooks.wiki, *.beta.lorebooks.wiki, *.lorebooks.eu.org, *.beta.lorebooks.eu.org {
 	import globals cf_dns01_challenge
