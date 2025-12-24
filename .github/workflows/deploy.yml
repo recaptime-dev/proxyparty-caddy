@@ -13,19 +13,8 @@ permissions:
   contents: read
 
 jobs:
-  #proxypartylab-prod-railwayapp:
-  #  name: Production Caddy server on railway.app
-  #  runs-on: ubuntu-latest
-  #  environment:
-  #    name: production
-  #    url: https://proxypartylab.up.railway.app
-  #  steps:
-  #    - uses: actions/checkout@v4
-  #    - run: echo TODO
-
   production-azure:
     name: Production - Dedicated Caddy server on Azure VM
-    needs: [docker-builds]
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
     environment:
