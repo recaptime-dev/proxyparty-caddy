@@ -1,10 +1,21 @@
 #!/usr/bin/env bash
+set -eo pipefail
+if [[ $DEBUG != "" ]]; then
+  set -x
+fi
 
-SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
 PARENT_DIR="$(dirname "$SCRIPT_DIR")"
 
 echo "Pulling updates from the repository..."
 git -C "$PARENT_DIR" pull hub main
 
-echo "Reloading Caddy with new configuration..."
-CADDY_ADMIN="localhost:20241" CONFIG_PATH="$PARENT_DIR/config/caddy/Caddyfile" "$SCRIPT_DIR/apply"
+if [[ $FF_RELOAD_CADDY_CONFIG != "" ]]; then
+  echo "Reloading Caddy with new configuration..."
+  CADDY_ADMIN="localhost:20241" CONFIG_PATH="$PARENT_DIR/config/caddy/Caddyfile" "$SCRIPT_DIR/apply"
+fi
+
+if [[ $FF_UPDATE_CONTAINER_IMAGE != "" ]]; then
+  echo "Updating container image and recreating it"
+  docker compose up --force-recreate --pull=always
+fi
