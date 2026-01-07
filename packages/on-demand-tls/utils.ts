@@ -52,3 +52,16 @@ export const isAdminUser = async (token: string): Promise<boolean> => {
     return false;
   }
 };
+
+export const allowlistedDomains = [
+  "recaptime.dev",
+  "recaptime.eu.org",
+  "stellapent.wiki",
+  "lorebooks.wiki",
+  "lorebooks.eu.org",
+  "hackclub.community",
+  "dino.icu",
+  "andreijiroh.dev",
+  "andreijiroh.eu.org",
+  "rtdevcdn.net.eu.org",
+];

@@ -1,6 +1,7 @@
 import { createRoute, z } from "@hono/zod-openapi";
 import { getDomainStatus } from "../kv.ts";
 import { domain_paramSchema } from "./admin.ts";
+import { allowlistedDomains } from "../utils.ts";
 
 export const DomainStatusSchema = z.object({
   status: z.enum(["allowed", "blocked", "invalid_domain", "not_found"]),
@@ -37,6 +38,22 @@ See [the Caddy documentation](https://caddyserver.com/docs/automatic-https#on-de
 
 export async function pubApiHandler_checkDomain(c: any /* Context */) {
   const { domain } = c.req.valid("query");
+
+  // Check if the domain ends with any of the allowlisted domains
+  // specific check: endsWith ensures 'sub.example.com' matches 'example.com'
+  // but be careful: 'badexample.com' would also match 'example.com'
+  // A safer check usually involves ensuring a dot precedes the suffix or it's an exact match.
+  if (
+    allowlistedDomains.some((allowed) =>
+      domain === allowed || domain.endsWith(`.${allowed}`)
+    )
+  ) {
+    return c.json({
+      status: "allowed",
+      reason: "Domain suffix on the hardcoded allowlist",
+    });
+  }
+
   const statusResult = await getDomainStatus(domain);
 
   if (statusResult.status === "allowed") {
