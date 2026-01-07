@@ -22,7 +22,7 @@ body:
       description: >-
         Where do we want to redirect or proxy that domain into? If you're redirecting
         in bulk, please note them in the reason field below. If you're not changing the
-        redirects, please type `Not Applicable`.
+        redirects or just parking it, please type `Not Applicable`.
       placeholder: https://target-url.tld/owo
     validations:
       required: true
@@ -54,9 +54,11 @@ body:
     attributes:
       label: Anything else?
       description: >-
-        If you tick the third or fourth checkbox, follow the instructions on the template
+        If you tick the fourth or fifth checkbox, follow the instructions on the template
         text above.
       options:
+        - label: Show a parking page instead of redirecting.
+          required: false
         - label: I need to proxy into the target URL instead of a simple redirect.
           required: false
         - label: Redirect all paths on the source URL
