@@ -12,6 +12,8 @@ services:
     volumes:
       - ./config/caddy:/etc/caddy
       - ./pages:/var/lib/caddy/pages
+      - caddy-state:/data
+      - caddy-config:/config
     restart: always
     env_file: .env.production.decrypted
     networks: [proxyparty-caddy]
@@ -19,3 +21,7 @@ services:
 networks:
   proxyparty-caddy:
     name: proxyparty-caddy-router
+
+volumes:
+  caddy-state:
+  caddy-config:
