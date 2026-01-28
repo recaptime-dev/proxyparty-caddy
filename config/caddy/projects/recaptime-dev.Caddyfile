@@ -1,0 +1,44 @@
+*.recaptime.dev, *.recaptime.eu.org {
+	import globals cf_dns01_challenge
+
+	@proxyparty host proxyparty.recaptime.dev proxyparty.recaptime.eu.org
+
+	handle @proxyparty {
+	  redir https://gitlab.com/recaptime-dev/infra/proxyparty-caddy
+	}
+
+	redir https://recaptime.dev
+}
+
+*.lorebooks.wiki, *.beta.lorebooks.wiki, *.lorebooks.eu.org, *.beta.lorebooks.eu.org {
+	import globals cf_dns01_challenge
+
+	@proxyparty host proxyparty.lorebooks.wiki proxyparty.lorebooks.eu.org
+	@ajhalili2006 host ajhalili2006.lorebooks.wiki ajhalili2006.lorebooks.eu.org andreijiroh.lorebooks.wiki andreijiroh.lorebooks.eu.org
+
+	handle @proxyparty {
+	  redir https://gitlab.com/recaptime-dev/infra/proxyparty-caddy
+	}
+
+	handle @ajhalili2006 {
+	  redir https://wiki.andreijiroh.dev{path}
+	}
+
+	handle {
+		root * ./pages/parking.lorebooks.wiki
+		encode gzip
+		try_files {path} /index.html
+		file_server
+	}
+}
+
+*.stellapent.wiki stellapent.wiki {
+	import globals cf_dns01_challenge
+
+	handle {
+		root * ./pages/parking.lorebooks.wiki
+		encode gzip
+		try_files {path} /index.html
+		file_server
+	}
+}
