@@ -6,6 +6,7 @@ on:
       - config/caddy/*
       - scripts/*
       - .github/workflows/deploy.yml
+      - .trigger-deploy
   workflow_dispatch:
 
 permissions:
@@ -26,10 +27,15 @@ jobs:
       - name: Setup Tailscale (using OIDC workload federation)
         uses: tailscale/github-action@v4
         with:
+          # Since they are just client IDs, we're publishing them for
+          # tracking proposes, although we gated them behind production
+          # deploys here and via Tailscale admin dashboard.
           oauth-client-id: TysnXTahJ911CNTRL-knEDkFDtWs11CNTRL
           audience: api.tailscale.com/TysnXTahJ911CNTRL-knEDkFDtWs11CNTRL
-          tags: tag:ci
+          tags: tag:ci-builds,tag:caddy
 
       - name: Deploy updates to server
         run: |
-          ssh caddy@proxyparty-caddy-production.tuna-skate.ts.net "/var/lib/caddy/src/scripts/deploy-updates"
+          ssh -o "SetEnv FF_UPDATE_CONTAINER_IMAGE=true" \
+            caddy@proxyparty-caddy-production.tuna-skate.ts.net \
+            "/var/lib/caddy/src/scripts/deploy-updates"
