@@ -3,6 +3,10 @@ set -e
 CONFIG_PATH=${CONFIG_PATH:-"./config/caddy/Caddyfile"}
 CADDY_ADMIN=${CADDY_ADMIN:-"100.77.60.119:20241"}
 
-dotenvx run -f .env.production -- caddy reload \
-  --config "${CONFIG_PATH}" \
-  --address "${CADDY_ADMIN}"
+if [[ $FF_RELOAD_VIA_REMOTE_ADMIN_API != "" ]]; then
+  dotenvx run -f .env.production -- caddy reload \
+    --config "${CONFIG_PATH}" \
+    --address "${CADDY_ADMIN}"
+else
+  docker compose exec caddy reload --config /etc/caddy/Caddyfile
+fi
