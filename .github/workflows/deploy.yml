@@ -37,5 +37,7 @@ jobs:
       - name: Deploy updates to server
         run: |
           ssh -o "SetEnv FF_UPDATE_CONTAINER_IMAGE=true" \
+            -o StrictHostKeyChecking=no \
+            -o UserKnownHostsFile=/dev/null \
             caddy@proxyparty-caddy-production.tuna-skate.ts.net \
             "/var/lib/caddy/src/scripts/deploy-updates"
