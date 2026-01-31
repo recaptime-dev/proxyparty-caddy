@@ -1,0 +1,12 @@
+# For debugging purposes only
+http://localhost:4208 {
+	header {
+		Server "proxyparty.recaptime.dev (Caddy)"
+		X-Powered-By "proxyparty.recaptime.dev (Caddy)"
+	}
+	root * ./pages/parking.lorebooks.wiki
+	root /failover ./pages/failover.lairland.is-a.dev
+	encode gzip
+	try_files {path} /index.html
+	file_server
+}

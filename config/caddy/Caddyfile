@@ -40,23 +40,22 @@
 http://localhost:4208 {
 	import globals
 
-	handle {
-		root * ./pages/parking.lorebooks.wiki
-		encode gzip
-		try_files {path} /index.html
-		file_server
-	}
+	root * ./pages/parking.lorebooks.wiki
+	root /failover ./pages/failover.lairland.is-a.dev
+	encode gzip
+	try_files {path} /index.html
+	file_server
 }
 
 # By default, we serve the parking page for all domains that are not explicitly handled.
 # To prevent abuse, we have an API service that checks if the domain is registered with
 # us before doing the TLS certificate issue request behind the scenes.
 https:// {
-  tls {
-    on_demand
-  }
+	tls {
+		on_demand
+	}
 
-  handle {
+	handle {
 		root * ./pages/parking.lorebooks.wiki
 		encode gzip
 		try_files {path} /index.html
