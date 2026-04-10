@@ -15,13 +15,23 @@ updates:
       github-actions-deps:
         patterns:
           - "*"
-  - package-ecosystem: docker
-    directory: /
+  - package-ecosystem: "docker"
+    directory: /docker
     schedule:
-      interval: weekly
+      interval: "weekly"
     assignees:
       - ajhalili2006
     groups:
       docker-base-images:
+        patterns:
+          - "*"
+  - package-ecosystem: "devcontainers"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    assignees:
+      - ajhalili2006
+    groups:
+      devcontainers-stuff:
         patterns:
           - "*"
