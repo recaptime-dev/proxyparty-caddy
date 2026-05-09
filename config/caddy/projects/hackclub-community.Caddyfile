@@ -1,15 +1,15 @@
-knot.hackclub.community {
+#knot.hackclub.community {
+#  tls {
+#    on_demand
+#  }
+#
+#  reverse_proxy http://knotserver-hackclub-community:5555
+#}
+
+*.alumni.dino.icu {
   tls {
     on_demand
   }
 
-  reverse_proxy http://knotserver-hackclub-community:5555
-}
-
-*.alumni.hackclub.community {
-  tls {
-    on_demand
-  }
-
-  redir https://alumni.hackclub.community
+  redir https://alumni.dino.icu
 }
