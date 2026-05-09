@@ -6,7 +6,7 @@
     "@hono/zod-openapi": "npm:@hono/zod-openapi@^1.2.0",
     "hono": "jsr:@hono/hono@^4.11.1",
     "hono-openapi": "npm:hono-openapi@^1.1.2",
-    "parse-domain": "npm:parse-domain@^8.2.2"
+    "parse-domain": "npm:parse-domain@^8.3.0"
   },
   "tasks": {
     "start": "deno run --allow-net --allow-env --unstable-kv main.ts",

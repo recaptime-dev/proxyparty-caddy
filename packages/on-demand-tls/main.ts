@@ -47,7 +47,7 @@ app.use(
         return true;
       }
       formatLogger(
-        `Admin auth token verification failed for request at ${c.req.url} (was ${token})`,
+        `Admin auth token verification failed for request at ${c.req.url}`,
         c.get("requestId"),
       );
       return false;
