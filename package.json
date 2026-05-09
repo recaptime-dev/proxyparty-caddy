@@ -5,7 +5,7 @@
     "set-secret:prod": "dotenvx set -f .env.production --",
     "decrypt:prod": "dotenvx decrypt -f .env.production --stdout -ek PROXYPARTY_ADMIN_TOKEN > .env.production.decrypted",
     "dev:caddy": "dotenvx run -f .env.production -- caddy run --config ./config/caddy/landing_pages.Caddyfile --watch",
-    "dev:api": "dotenvx run -f .env.production -- deno run --unstable-kv --allow-net --allow-env packages/on-demand-tls/main.ts"
+    "dev:api": "dotenvx run -f .env.production -- deno run --watch --unstable-kv --allow-net --allow-env packages/on-demand-tls/main.ts"
   },
   "dependencies": {
     "parse-domain": "^8.3.0"
