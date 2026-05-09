@@ -1,5 +1,6 @@
 import { createRoute, z } from "@hono/zod-openapi";
 import {
+allowDomain,
   banDomain,
   DomainInfo,
   getDomainStatus,
@@ -24,6 +25,10 @@ const admin_banDomainSchema = z.object({
   reason: z.string().min(1).max(255).optional(),
   include_subdomains: z.boolean().optional().default(false),
 });
+
+const admin_allowDomainSchema = z.object({
+  include_subdomains: z.boolean().optional().default(false),
+})
 
 const admin_domainInfoResult = z.object({
   ok: z.boolean().default(true),
@@ -162,6 +167,44 @@ export async function adminApiHandler_unbanDomain(ctx) {
 
   const result = await unbanDomain(domain);
 
+  return ctx.json(result);
+}
+
+export const adminApi_allow = createRoute({
+  method: "put",
+  path: "/admin/{domain}/allow",
+  summary: "Allow a domain for use in",
+  request: {
+    params: domain_paramSchema,
+    body: {
+      content: {
+        "application/json": {
+          schema: admin_allowDomainSchema,
+        },
+      },
+    },
+  },
+  security: [
+    {
+      AdminApiToken: [],
+    },
+  ],
+  responses: {
+    200: {
+      content: {
+        "application/json": {
+          schema: admin_domainInfoSchema,
+        },
+      },
+      description: "Domain information",
+    },
+  },
+  tags: ["Admin"]
+})
+
+export async function adminApiHandler_allow(ctx) {
+  const { domain } = ctx.req.valid("param");
+  const result = await allowDomain(domain);
   return ctx.json(result);
 }
 

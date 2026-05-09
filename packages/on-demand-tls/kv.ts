@@ -66,6 +66,43 @@ export async function getSubdomainsStatus(domain: string, subdomain: string) {
   return result.value;
 }
 
+export async function allowDomain(
+  domain: string,
+  include_subdomains?: boolean
+) {
+  const metadata = getDomainData(domain);
+  let dbKey: Array<string>;
+  const currentData = (await kvApi.get<DomainInfo>(["domains", domain])).value;
+
+  if (metadata === null) {
+    return { ok: false, versionstamp: undefined };
+  }
+
+  if (metadata.subdomains) {
+    dbKey = ["domains", metadata.domain, metadata.subdomains];
+  } else {
+    dbKey = ["domains", domain];
+  }
+  
+  const domainInfo: DomainInfo = {
+    status: "allowed",
+    last_updated: Date.now(),
+    created_at: Date.now(),
+    include_subdomains: include_subdomains || false,
+  };
+
+  if (currentData !== null) {
+    domainInfo.status = "allowed";
+    domainInfo.blocked_at = undefined;
+    domainInfo.block_reason = undefined;
+    domainInfo.created_at = currentData.created_at ?? Date.now();
+    domainInfo.last_updated = currentData.last_updated ?? Date.now();
+    domainInfo.include_subdomains = currentData.include_subdomains || false;
+  }
+
+  return await kvApi.set(dbKey, domainInfo);
+}
+
 export async function banDomain(
   domain: string,
   reason: string,

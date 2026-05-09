@@ -1,10 +1,12 @@
 import type { OpenAPIHono } from "@hono/zod-openapi";
 import { pubApi_checkDomain, pubApiHandler_checkDomain } from "./pubApi.ts";
 import {
+adminApi_allow,
   adminApi_banDomain,
   adminApi_debugDomain,
   adminApi_removeDomain,
   adminApi_unbanDomain,
+  adminApiHandler_allow,
   adminApiHandler_banDomain,
   adminApiHandler_debugDomain,
   adminApiHandler_removeDomain,
@@ -13,6 +15,7 @@ import {
 
 export function registerRoutes(app: OpenAPIHono) {
   app.openapi(pubApi_checkDomain, pubApiHandler_checkDomain);
+  app.openapi(adminApi_allow, adminApiHandler_allow);
   app.openapi(adminApi_banDomain, adminApiHandler_banDomain);
   app.openapi(adminApi_unbanDomain, adminApiHandler_unbanDomain);
   app.openapi(adminApi_removeDomain, adminApiHandler_removeDomain);
