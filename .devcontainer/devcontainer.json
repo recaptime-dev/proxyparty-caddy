@@ -1,7 +1,7 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 // README at: https://github.com/devcontainers/templates/tree/main/src/docker-in-docker
 {
-	"name": "Docker in Docker - proxyparty",
+	"name": "proxyparty.recaptime.dev (DinD codespace)",
 	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
 	"build": {
 		"dockerfile": "./devcontainer.Dockerfile"
@@ -49,19 +49,12 @@
 				"recaptime-dev/infraops": {
 					"permissions": {
 						"issues": "write",
-						"contents": "read",
+						"pull_requests": "write",
+						"actions": "write",
+						"workflows": "write",
+						"contents": "write",
 						"packages": "write",
 						"repository_projects": "write"
-					}
-				},
-				"hackclub/dns": {
-					"permissions": {
-						"issues": "write",
-						"contents": "read",
-						"pull_requests": "read",
-						"statuses": "read",
-						"checks": "read",
-						"actions": "read"
 					}
 				}
 			}
